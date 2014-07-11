@@ -21,6 +21,13 @@ $(function(){
 		$('#new-weibo-outer').addClass('on');
 		$('#status').focus();
 	});
+	/*
+	$('#new-weibo-cover').focus(function(){
+		$(this).find('small').show();
+	}).blur(function(){
+		setTimeout(function(){$('#new-weibo-cover small').hide();}, 300);
+	});
+	*/
 	$('#new-weibo-close').click(function(){
 		$('#new-weibo-outer').removeClass('on');
 	});
@@ -41,6 +48,9 @@ $(function(){
 		if(e.keyCode == 13){
 			$('#new-weibo-cover').focus();
 		}
+	});
+	$('#new-weibo-reset').click(function(){
+		$('#status').focus();
 	});
 	$('#new-weibo-cover').keydown(function(e){
 		if(e.keyCode == 13){
