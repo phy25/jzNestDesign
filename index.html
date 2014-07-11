@@ -15,13 +15,54 @@
 </head><body>
 <div id="wrapper">
 	<section id="right">
-		<div class="box-flipper-outer">
+		<div class="box-flipper-outer on" id="new-weibo-outer">
 			<div class="boxes box-flipper">
-				<div id="new-weibo-cover" class="box box-flipper-cover">
-					<p class="center">新树洞...</p>
+				<div id="new-weibo-cover" class="box box-flipper-fronter" role="button" tabindex="0">
+					<p class="center">发表新树洞</p>
 				</div>
-				<div id="new-weibo-content" class="box box-flipper-content">
-					<textarea name="status" id="status" cols="30" rows="3" placeholder="想说什么？"></textarea>
+				<div id="new-weibo-content" class="box box-flipper-backer">
+					<form action="?" id="new-weibo-form" method="POST">
+						<div class="box-content-e">
+							<textarea name="status" id="status" rows="4" placeholder="想说什么？" tabindex="1"></textarea>
+						</div>
+						<div class="box-upper">
+							<div class="left">
+								<button type="button" class="btn" id="new-weibo-close" tabindex="3" title="收起树洞发布框 (Esc)">收起</button>
+							</div>
+							<div class="right">
+								<span id="new-weibo-counter">140</span>
+								<button type="submit" class="btn" id="new-weibo-submit" tabindex="2" title="发送树洞 (Ctrl+Enter)">发送</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="boxes" id="content">
+			<div class="box">
+				<div class="box-content">
+					<p>你好</p>
+				</div>
+			</div>
+			<div class="box">
+				<div class="box-content">
+					<p>你好</p>
+				</div>
+			</div>
+			<div class="box">
+				<div class="box-content">
+					<p>你好</p>
+				</div>
+			</div>
+			<div class="box box-a">
+				<div class="box-content">
+					<p>你好</p>
+				</div>
+			</div>
+			<div class="box">
+				<div class="box-content">
+					<p>你好</p>
 				</div>
 			</div>
 		</div>
@@ -31,6 +72,7 @@
 	</section>
 </div>
 
+<script src="jquery-1.11.1.min.js"></script>
 <script src="core.js"></script>
 </body>
 </html>
