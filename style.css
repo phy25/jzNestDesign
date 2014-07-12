@@ -12,6 +12,7 @@ abbr{border-bottom: 1px dotted #333;}
 .hide{display:none}
 .muted{color:#BBB;}
 .blank{padding:.5em 0;}
+.pointer{cursor: pointer;}
 
 #wrapper{max-width:1400px;width:auto;margin:0 auto;position:relative;}
 #right{display:block;float:right;width: 80%;}
@@ -54,7 +55,7 @@ abbr{border-bottom: 1px dotted #333;}
 	text-decoration: none;
 }
 .box-upper, .box-upper .btn{
-	font-size: .7em;
+	font-size: .8em;
 }
 .box-upper .btn:hover, .box-upper .btn:focus{
 	background: #EEE;

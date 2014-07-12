@@ -139,6 +139,7 @@ $(function(){
 		}
 	});
 	if(!supportsTransitions()){
+		createMsgCard('已进入非 3D 模式。', 'non-3d', 'success', 0);
 		$('#box-flipper-backer').hide();
 		$('#new-weibo-cover').click(function(){
 			if(!$(this).is('.active')){
@@ -272,7 +273,8 @@ $(function(){
 		setTimeout(function(){
 			$('#msg-id-inline-callback').removeClass('progress-bar-striped active');
 			if(Math.random() > 0.3){ // success
-				$('#msg-id-inline-callback').addClass('success').find('p:first').text('发布成功');
+				$('#msg-id-inline-callback').addClass('success pointer').click(function(){$(this).remove();return false;})
+					.find('p:first').text('发布成功');
 				timeouts['inline-callback'] = setTimeout(function(){
 					$('#msg-id-inline-callback').remove();
 				}, 5000);
@@ -280,7 +282,8 @@ $(function(){
 			}else{
 				$('#inline-form').show();
 				$('#reply').focus();
-				$('#msg-id-inline-callback').addClass('error').find('p:first').text('发布失败（未知错误）');
+				$('#msg-id-inline-callback').addClass('error pointer').click(function(){$(this).remove();return false;})
+					.find('p:first').text('发布失败（未知错误）');
 				timeouts['inline-callback'] = setTimeout(function(){
 					$('#msg-id-inline-callback').remove();
 				}, 5000);
@@ -307,7 +310,7 @@ $(function(){
 			var $e = $('#msg-id-'+id).find('p:first').text(content).end();
 			clearTimeout(timeouts['msg-id-'+id]);
 		}else{
-			var $e = $('<div id="msg-id-'+id+'" class="box '+type+'"><div class="box-content"><p>'+$('<div/>').text(content).html()+'</p></div></div>').on('click', function(){$(this).remove();});
+			var $e = $('<div id="msg-id-'+id+'" class="box pointer '+type+'"><div class="box-content"><p>'+$('<div/>').text(content).html()+'</p></div></div>').on('click', function(){$(this).remove();});
 			if(!appendAfter){
 				$e.prependTo('#content');
 			}else{
@@ -319,5 +322,25 @@ $(function(){
 
 	$('#content .box').each(function(i, e){
 		bindWeiboCard($(e));
+	});
+
+	$('a.ajax').click(function(){
+		if(!$('#ajaxContent').length) $('#content').before('<div id="ajaxContent"></div>');
+		var $ac = $('#ajaxContent').html('<div class="box progress-bar-striped active"><div class="box-content"><p class="center">正在加载</p></div></div>');
+		$.get(this.href)
+			.done(function(data){
+				$ac.empty().hide();
+				// Thanks to jQuery.load(): removing the scripts
+				// to avoid any 'Permission Denied' errors in IE
+				var $d = $("<div>").append(data.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ""));
+				$ac.append($d.find('#content').children()).slideDown();
+			})
+			.error(function(o){
+				var $box = $ac.find('.box.active:first');
+				$box.addClass('error pointer').removeClass('progress-bar-striped active')
+					.find('p:first').text('载入错误（'+o.statusText+', '+o.status+'）');
+				$box.click(function(){$(this).remove();return false;});
+			});
+		return false;
 	});
 });
