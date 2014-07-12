@@ -106,7 +106,6 @@ $(function(){
 
 	var onPicChange = function(e){
 		var ele = $('#pic')[0], filename = (ele.files && ele.files[0]) ? ele.files[0].name : ele.value;
-		console.log(filename);
 		if(filename){
 			$('#new-weibo-upload-btn')
 				.addClass('selected')
@@ -152,9 +151,6 @@ $(function(){
 			$('#box-flipper-fronter').show();
 		});
 	}
-	$('#new-weibo-form').on('keyup', function(e){
-		console.log(e);
-	});
 	$('#new-weibo-form').submit(function(e){
 		e.preventDefault();
 		if(wbGetLength($('#status').val()) == 0){

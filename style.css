@@ -1,4 +1,4 @@
-body{font:18px Arial,Helvetica,sans-serif;color:#000;margin:0;}
+body{font:18px Arial,Helvetica,sans-serif;color:#000;margin:0;padding-bottom:1em;}
 img{border:none}
 h1{font-size:1.6em;}
 h2{font-size:1.3em;margin:10px 0}
@@ -12,9 +12,10 @@ abbr{border-bottom: 1px dotted #333;}
 .hide{display:none}
 .muted{color:#777;}
 
-#wrapper{max-width:1200px;width:auto;_width:800px;margin:0 auto;padding:0 1em;position:relative;}
+#wrapper{max-width:1400px;width:auto;margin:0 auto;position:relative;}
 #right{display:block;float:right;width: 80%;}
 #left{display:block;float:left;width: 20%;}
+.container{padding:0 1em;}
 .left{float:left;}
 .right{float:right;}
 .box{
@@ -236,16 +237,21 @@ abbr{border-bottom: 1px dotted #333;}
 #sm-brand .info{position:absolute;left:0;top:0;margin: .5em 1em;}
 #sm-brand .btn{border:1px solid #DDD;text-decoration:none;color:#000;font-size:.9em;}
 
+#left .ads.box{display:none;}
+
 @media (max-width: 900px) {
 	#left{float:none;width:100%;}
+	#left>.container{padding:0;}
 	#right{float:none;width:100%;}
 	#sm-brand{display:block;}
+	#left .ads.box{display:block;}
 }
 @media (max-width: 530px) {
 	body{font-size:14px;}
 	#sm-brand .info{margin: .5em .3em;}
-	#wrapper{padding:0 .5em;}
+	.container{padding:0 .5em;}
 }
 @media (min-width: 1200px) {
 	body{font-size:20px;}
+	#left .ads.box{display:block;}
 }
