@@ -163,7 +163,7 @@ $(function(){
 			return false;
 		}
 		if($('#new-weibo-counter').is('.warning')){
-			createMsgCard('字数过多，请不要做话痨 :)', 'new-weibo-length', 3000);
+			createMsgCard('字数过多，请不要做话痨 :)', 'new-weibo-length', 'error', 3000);
 			$('#status').focus();
 			e.preventDefault();
 			return false;
