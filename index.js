@@ -214,7 +214,7 @@ $(function(){
 				return false;
 			}
 			var $f = $('#inline-form').appendTo($(this).parents('.box-upper')).show();
-			initInlineForm($f, $(this).parents('.box').attr('id'), 'repost');
+			initInlineForm($f, $(this).parents('.box'), 'repost');
 			return false;
 		});
 		$e.find('a.btn.comment').click(function(){
@@ -226,7 +226,7 @@ $(function(){
 				return false;
 			}
 			var $f = $('#inline-form').appendTo($(this).parents('.box-upper')).show();
-			initInlineForm($f, $(this).parents('.box').attr('id'), 'comment');
+			initInlineForm($f, $(this).parents('.box'), 'comment');
 			return false;
 		});
 	}
@@ -235,6 +235,12 @@ $(function(){
 		$('#reply').blur();
 	}
 	function initInlineForm($e, id, type){
+		if(typeof id == 'object'){
+			$p = id;
+			id = $p.attr('id');
+		}else{
+			$p = false;
+		}
 		$e.find('#inline-form-type').val(type);
 		$e.find('#inline-form-parent-id').val(id);
 		$e.addClass('active');
@@ -246,6 +252,8 @@ $(function(){
 			$e.find('span.typetext').text('转发');
 			$e.find('#inline-form-submit').text('匿名转发');
 		}
+		if($p) $e.find('a.backlink').attr('href', $p.find('a.morelink').attr('href')+'?type='+type);
+
 		$('#reply').focus();
 	}
 	$('#reply-weibo-form').on('keydown', function(e){
@@ -274,7 +282,7 @@ $(function(){
 		}
 		// Ajax here!
 		$('#msg-id-inline-callback').remove();
-		$(this).parents('.box').after('<div id="msg-id-inline-callback" class="box progress-bar-striped active"><div class="box-content"><p>正在发布</p></div></div>');
+		$(this).parents('.box').after('<div id="msg-id-inline-callback" class="box progress-bar-striped active"><div class="box-content center"><p>正在发布</p></div></div>');
 		closeInlineForm();
 		clearTimeout(timeouts['inline-callback']);
 		setTimeout(function(){
@@ -301,7 +309,7 @@ $(function(){
 	});
 	function generateWeiboCard(data, $return){
 		// data: {}
-		var ret = '<div class="box"><div class="box-content-e"><p>'+$('<div/>').text(data.content).html()+'</p></div><div class="box-upper"><div class="left time"><p><time>'+data.createdAt+'</time> #'+data.source+' <a href="'+data.link+'" target="_blank" class="btn" title="返回微博看图、点赞">更多</a></p></div><div class="right"><p><a href="'+data.link+'?type=repost" class="btn repost">转发('+data.repCount+')</a><a href="'+data.link+'?type=comment" class="btn comment">评论('+data.cmtCount+')</a></p></div></div></div>';
+		var ret = '<div class="box"><div class="box-content-e"><p>'+$('<div/>').text(data.content).html()+'</p></div><div class="box-upper"><div class="left time"><p><time>'+data.createdAt+'</time> #'+data.source+' <a href="'+data.link+'" target="_blank" class="btn morelink" title="返回微博看图、点赞">更多</a></p></div><div class="right"><p><a href="'+data.link+'?type=repost" class="btn repost">转发('+data.repCount+')</a><a href="'+data.link+'?type=comment" class="btn comment">评论('+data.cmtCount+')</a></p></div></div></div>';
 		if($return){
 			var $e = $(ret);
 			bindWeiboCard($e);
@@ -317,7 +325,7 @@ $(function(){
 			var $e = $('#msg-id-'+id).find('p:first').text(content).end();
 			clearTimeout(timeouts['msg-id-'+id]);
 		}else{
-			var $e = $('<div id="msg-id-'+id+'" class="box pointer '+type+'"><div class="box-content"><p>'+$('<div/>').text(content).html()+'</p></div></div>').on('click', function(){$(this).remove();});
+			var $e = $('<div id="msg-id-'+id+'" class="box pointer '+type+'"><div class="box-content center"><p>'+$('<div/>').text(content).html()+'</p></div></div>').on('click', function(){$(this).remove();});
 			if(!appendAfter){
 				$e.prependTo('#content');
 			}else{
@@ -334,7 +342,7 @@ $(function(){
 	$('a.ajax').click(function(e){
 		e.preventDefault();
 		if(!$('#ajaxContent').length) $('#content').before('<div id="ajaxContent"></div>');
-		var $ac = $('#ajaxContent').html('<div class="box progress-bar-striped active"><div class="box-content"><p class="center">正在加载</p></div></div>');
+		var $ac = $('#ajaxContent').html('<div class="box progress-bar-striped active"><div class="box-content center"><p>正在加载</p></div></div>');
 		$.get(this.href)
 			.done(function(data){
 				$ac.empty().hide();
