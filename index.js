@@ -99,10 +99,15 @@ $(function(){
 			return false;
 		}
 	});
-	$('#status').on('keyup keydown paste', function(){
+	$('#status').on('keyup keydown paste', function(event, init){
 		var l = 136 - wbGetLength(this.value);
 		$('#new-weibo-counter').text(l)[l < 0 ? 'addClass':'removeClass']('warning');
-	}).trigger('paste');
+
+		// AutoSave, 向新浪看齐，只做主微博保存，不做评论保存
+		if(!init && localStorage){
+			localStorage['jzth_status'] = this.value;
+		}
+	}).trigger('paste', [true]);
 
 	var onPicChange = function(e){
 		var ele = $('#pic')[0], filename = (ele.files && ele.files[0]) ? ele.files[0].name : ele.value;
@@ -152,7 +157,7 @@ $(function(){
 			$('#new-weibo-cover').show();
 		});
 	}
-	
+
 	$('#new-weibo-form').submit(function(e){
 		e.preventDefault();
 		if(wbGetLength($('#status').val()) == 0){
@@ -346,4 +351,9 @@ $(function(){
 			});
 		return false;
 	});
+
+	// Autosave Revert
+	if(!$('#status').val() && localStorage){
+		$('#status').val(localStorage['jzth_status']);
+	}
 });
