@@ -204,7 +204,7 @@ $(function(){
 	}
 	function generateWeiboCard(data, $return){
 		// data: {}
-		var ret = '<div class="box"><div class="box-content-e"><p>'+$('<div/>').text(data.content).html()+'</p></div><div class="box-upper"><div class="left time"><p>'+data.createdAt+' <a href="'+data.link+'" target="_blank" class="btn">更多</a></p></div><div class="right"><p><a href="'+data.link+'?type=repost" class="btn comment">评论('+data.cmtCount+')</a><a href="'+data.link+'?type=comment" class="btn repost">转发('+data.repCount+')</a></p></div></div></div>';
+		var ret = '<div class="box"><div class="box-content-e"><p>'+$('<div/>').text(data.content).html()+'</p></div><div class="box-upper"><div class="left time"><p>'+data.createdAt+' <a href="'+data.link+'" target="_blank" class="btn" title="返回微博看图、点赞">更多</a></p></div><div class="right"><p><a href="'+data.link+'?type=repost" class="btn comment">评论('+data.cmtCount+')</a><a href="'+data.link+'?type=comment" class="btn repost">转发('+data.repCount+')</a></p></div></div></div>';
 		if($return){
 			var $e = $(ret);
 			bindWeiboCard($e);

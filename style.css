@@ -24,11 +24,15 @@ abbr{border-bottom: 1px dotted #333;}
 	min-height:1em;
 	width:100%;
 	overflow:hidden;
+	display: block;
+	color: #000;
+	text-decoration: none;
 }
 .box-content{
 	margin:.8em 1em;
 	padding:0;
 }
+.box-content p{line-height:1.5em;margin: .3em 0;}
 .box-content-e{
 	margin:.8em 1em 0.4em;
 	padding:0;
@@ -58,7 +62,6 @@ abbr{border-bottom: 1px dotted #333;}
 	padding: .4em 1em;
 	margin: 0;
 }
-.box-content p{line-height:1.2em;}
 .box-upper .time{margin-left: .8em;}
 .center{text-align:center;}
 #new-weibo-counter.warning{
@@ -207,6 +210,7 @@ abbr{border-bottom: 1px dotted #333;}
 #new-weibo-content, #new-weibo-outer.on{height:8.9em;}
 
 #status{resize:none;width:100%;height:6em;line-height:1.5em;font-size:1em;padding:0;background:transparent;outline:none;border:none;overflow:auto;}
+#left{padding: 3em 0 0;}
 #right{overflow:hidden;}
 #sm-brand{display:none;margin:0;padding:.5em 0;border-bottom:1px solid #DDD;background:#EEE;display:relative;}
 #sm-brand h1{font-size:1.1em;text-align:center;line-height:1.1em;margin:0;padding:0;}
