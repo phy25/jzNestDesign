@@ -18,20 +18,22 @@
 		<div class="box-flipper-outer on" id="new-weibo-outer">
 			<div class="boxes box-flipper">
 				<div id="new-weibo-cover" class="box box-flipper-fronter" role="button" tabindex="0">
-					<p class="center">发表新树洞</p>
+					<p id="new-weibo-hint" class="center">发表新树洞</p>
+					<p id="new-weibo-progress" class="center hide">正在发布</p>
 				</div>
 				<div id="new-weibo-content" class="box box-flipper-backer">
 					<form action="?" id="new-weibo-form" method="POST">
 						<div class="box-content-e">
-							<textarea name="status" id="status" rows="4" placeholder="想说什么？" tabindex="1"></textarea>
+							<textarea name="status" id="status" rows="4" placeholder="想说什么？" tabindex="1" required></textarea>
+							<input type="file" name="pic" id="pic" class="hide" accept=".jpg, .jpeg, .gif, .png" />
 						</div>
 						<div class="box-upper">
 							<div class="left">
-								<button type="button" class="btn" id="new-weibo-close" tabindex="4" title="收起树洞发布框 (Esc)">收起</button><button type="reset" class="btn" id="new-weibo-reset" tabindex="3" title="清空发布框">清空</button>
+								<button type="button" class="btn" id="new-weibo-close" tabindex="6" title="收起树洞发布框 (Esc)">收起</button><!--<button type="reset" class="btn" id="new-weibo-reset" tabindex="5" title="清空发布框">清空</button>--><button type="button" class="btn" id="new-weibo-upload-btn" tabindex="3" title="上传图片文件">图片</button>
 							</div>
 							<div class="right">
 								<p>
-									<span id="new-weibo-counter">140</span>
+									<span id="new-weibo-counter">135</span>
 									<button type="submit" class="btn" id="new-weibo-submit" tabindex="2" title="发送树洞 (Ctrl+Enter)">发送</button>
 								</p>
 							</div>
@@ -47,7 +49,12 @@
 					<p>你好</p>
 				</div>
 				<div class="box-upper">
-					<div class="left time"><p>2014/1/1</p></div>
+					<div class="left time"><p>2014/1/1 <a href="http://weibo.com/gimdongtreehole" class="btn">更多</a></p></div>
+					<div class="right">
+						<p>
+							<a href="" class="btn">评论(0)</a><a href="" class="btn">转发(0)</a>
+						</p>
+					</div>
 				</div>
 			</div>
 			<div class="box">

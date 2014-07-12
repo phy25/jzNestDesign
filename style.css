@@ -6,7 +6,7 @@ h1,h2,.clear{clear:both;}
 ul, ol{margin:1em 0 1em 2.5em;padding:0;}
 ul li{list-style:circle;}
 ul li, ol li{margin:0.5em 0;}
-p{margin:0;line-height: 2em;color:#111;}
+p{margin:0;line-height: 2em;}
 a{color:#336699;padding:2px 4px;margin: 0 4px;}
 abbr{border-bottom: 1px dotted #333;}
 .hide{display:none}
@@ -23,33 +23,48 @@ abbr{border-bottom: 1px dotted #333;}
 	box-shadow: 3px 3px 2px #EEE;
 	min-height:1em;
 	width:100%;
-	overflow: auto;
+	overflow:hidden;
 }
 .box-content{
 	margin:.8em 1em;
 	padding:0;
 }
 .box-content-e{
-	margin:.8em 1em 0.2em;
+	margin:.8em 1em 0.4em;
 	padding:0;
 }
 .box-upper{
 	margin:0;
 	border-top: 1px solid #AAA;
 }
+.box-upper p{line-height:2em;}
 .box-upper .btn{
 	border: none;
-	background: none;
-	padding: .5em 1em;
+	background: transparent;
+	padding: .4em 1em;
 	margin:0;
+	color: #000;
+	text-decoration: none;
 }
-.box-upper, .box-upper .btn{font-size:13px;}
+.box-upper, .box-upper .btn{
+	font-size:13px;
+}
 .box-upper .btn:hover, .box-upper .btn:focus{
 	background: #EEE;
+	color: #000;
+	text-decoration: none;
 	outline:none;
+	border: none;
+	padding: .4em 1em;
+	margin: 0;
 }
 .box-content p{line-height:1.2em;}
+.box-upper .time{margin-left: .8em;}
 .center{text-align:center;}
+#new-weibo-counter.warning{
+	color: red;
+}
+#new-weibo-upload-btn.selected{color: red;text-decoration: underline;}
 
 .box-flipper-outer{
 	-webkit-perspective: 1000;
@@ -129,13 +144,67 @@ abbr{border-bottom: 1px dotted #333;}
 	transform: rotateX(180deg);
 }
 
+/* Thanks to Bootstrap */
+@-webkit-keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+@-o-keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+@keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+.progress-bar-striped{
+  background-color: #428bca;
+  color: #FFF;
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  -webkit-background-size: 40px 40px;
+          background-size: 40px 40px;
+}
+.box.success{
+  background-color: #5cb85c;
+  color: #FFF;
+}
+.box.error{
+  background-color: #f0ad4e;
+  color: #FFF;
+}
+.progress-bar-striped.active {
+  -webkit-animation: progress-bar-stripes 1s linear infinite;
+       -o-animation: progress-bar-stripes 1s linear infinite;
+          animation: progress-bar-stripes 1s linear infinite;
+}
+
+#new-weibo-cover.active #new-weibo-progress, #new-weibo-cover.error #new-weibo-progress, #new-weibo-cover.success #new-weibo-progress{
+	display:block;
+}
+#new-weibo-cover.active #new-weibo-hint, #new-weibo-cover.error #new-weibo-hint, #new-weibo-cover.success #new-weibo-hint{
+	display:none;
+}
 
 #new-weibo-cover{cursor:pointer;}
 #new-weibo-cover p{line-height:2.2em;}
 #new-weibo-cover:focus{box-shadow: none;outline:8px auto #4D90FE;}
-#new-weibo-content{overflow:hidden;}
+/*#new-weibo-content{overflow:hidden;}*/
 #new-weibo-cover, #new-weibo-outer{height:2.2em;}
-#new-weibo-content, #new-weibo-outer.on{height:7.95em;}
+#new-weibo-content, #new-weibo-outer.on{height:8em;}
 
-#status{resize:none;width:100%;height:5em;font-size:1em;padding:0;background:transparent;outline:none;border:none;}
+#status{resize:none;width:100%;height:5em;font-size:1em;padding:0;background:transparent;outline:none;border:none;overflow:auto;}
 #right{overflow:hidden;}
