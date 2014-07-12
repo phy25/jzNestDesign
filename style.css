@@ -1,4 +1,4 @@
-body{font:18px Arial,Helvetica,sans-serif;color:#000;margin:0;padding-bottom:1em;}
+body{font:18px Arial,Helvetica,sans-serif;color:#000;margin:0;padding-bottom:1em;background:repeat fixed url(tileable_wood_texture.png);}
 img{border:none}
 h1{font-size:1.6em;}
 h2{font-size:1.3em;margin:10px 0}
@@ -10,7 +10,8 @@ p{margin:0;line-height: 1.5em;}
 a{color:#336699;padding:2px 4px;margin: 0 4px;}
 abbr{border-bottom: 1px dotted #333;}
 .hide{display:none}
-.muted{color:#777;}
+.muted{color:#BBB;}
+.blank{padding:.5em 0;}
 
 #wrapper{max-width:1400px;width:auto;margin:0 auto;position:relative;}
 #right{display:block;float:right;width: 80%;}
@@ -19,10 +20,10 @@ abbr{border-bottom: 1px dotted #333;}
 .left{float:left;}
 .right{float:right;}
 .box{
-	background:#CCC;
+	background:#FFF;
 	margin:1em 0 0;
 	padding:0;
-	box-shadow: 3px 3px 2px #EEE;
+	box-shadow: 3px 3px 5px #BBB;
 	min-height:1em;
 	width:100%;
 	overflow:hidden;
@@ -41,7 +42,7 @@ abbr{border-bottom: 1px dotted #333;}
 }
 .box-upper{
 	margin:0;
-	border-top: 1px solid #AAA;
+	border-top: 1px solid #EEE;
 }
 .box-upper p{line-height:2em;}
 .box-upper .btn{
@@ -225,13 +226,12 @@ abbr{border-bottom: 1px dotted #333;}
 	padding: .3em 0;
 	background: transparent;
 	border: none;
-	border-bottom: 1px solid #000;
+	border-bottom: 1px solid #AAA;
 	outline:none;
 }
 
 
 #left{padding: 3em 0 0;}
-#right{overflow:hidden;}
 #sm-brand{display:none;margin:0;padding:.5em 0;border-bottom:1px solid #DDD;background:#EEE;display:relative;}
 #sm-brand h1{font-size:1.1em;text-align:center;line-height:1.1em;margin:0;padding:0;}
 #sm-brand .info{position:absolute;left:0;top:0;margin: .5em 1em;}
