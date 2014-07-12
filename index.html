@@ -49,7 +49,7 @@
 		</div>
 
 		<div class="boxes" id="content">
-			<div class="box">
+			<div class="box" id="12345678">
 				<div class="box-content-e">
 					<p>每年夏天總有這樣那樣的考試，高考、中考。有人如願以償，有人大失所望，有人步步為營，有人揚揚無備。可人生就是這樣，有時甜有時苦。挫折總會遇到，但只要相信夢想是你的，走自己的路，別人說到嘴禿嚕皮又能怎樣呢？即使迷了路，大不了走別人的，有同伴一起上路，這是多麼開心的一路貨色啊！</p>
 				</div>
@@ -57,14 +57,8 @@
 					<div class="left time"><p>2014/1/1 <a href="http://weibo.com/gimdongtreehole" class="btn" title="返回微博看图、点赞" target="_blank">更多</a></p></div>
 					<div class="right">
 						<p>
-							<a href="" class="btn">评论(0)</a><a href="" class="btn">转发(0)</a>
+							<a href="" class="btn comment">评论(0)</a><a href="" class="btn repost">转发(0)</a>
 						</p>
-					</div>
-					<div class="clear inline-form">
-						<form action="" id="reply-weibo-form">
-							<input type="text" name="reply" id="reply" rows="1" placeholder="想说什么？" required tabindex="11" />
-							<p class="right muted">实名评论请<a href="#" tabindex="13">回微博</a>撰写 <button type="submit" class="btn" tabindex="12">匿名评论</button></p>
-						</form>
 					</div>
 				</div>
 			</div>
@@ -112,6 +106,12 @@
 		</div>
 	</section>
 	<div class="clear"></div>
+	<div id="inline-form" class="clear inline-form hide">
+		<form action="" id="reply-weibo-form" method="POST">
+			<input type="text" name="reply" id="reply" rows="1" placeholder="想说什么？" required tabindex="11" />
+			<p class="right muted">实名<span class="typetext">评论</span>请<a href="#" tabindex="13">回微博</a>撰写 <button type="submit" class="btn" tabindex="12" id="inline-form-submit">匿名评论</button><input type="hidden" name="type" id="inline-form-type" value="comment" /><input type="hidden" name="parent_id" id="inline-form-parent-id" value="" /></p>
+		</form>
+	</div>
 </div>
 
 <script src="jquery-1.11.1.min.js"></script>

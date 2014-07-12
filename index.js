@@ -164,6 +164,7 @@ $(function(){
 			e.preventDefault();
 			return false;
 		}
+		$('#msg-id-new-weibo-failure').remove();
 		// Ajax here!
 		$('#new-weibo-progress').text('正在发布');
 		$('#new-weibo-cover').addClass('progress-bar-striped active');
@@ -195,9 +196,99 @@ $(function(){
 	});
 
 	function bindWeiboCard($e){
-		$e.find('a.btn.repost');
-		$e.find('a.btn.comment');
+		$e.find('a.btn.repost').click(function(){
+			if($('#msg-id-inline-callback.active').length){
+				return false;
+			}
+			if($('#inline-form').is('.active') && $('#inline-form-type').val() == 'repost'){
+				closeInlineForm();
+				return false;
+			}
+			var $f = $('#inline-form').appendTo($(this).parents('.box-upper')).show();
+			initInlineForm($f, $(this).parents('.box').attr('id'), 'repost');
+			return false;
+		});
+		$e.find('a.btn.comment').click(function(){
+			if($('#msg-id-inline-callback.active').length){
+				return false;
+			}
+			if($('#inline-form').is('.active') && $('#inline-form-type').val() == 'comment'){
+				closeInlineForm();
+				return false;
+			}
+			var $f = $('#inline-form').appendTo($(this).parents('.box-upper')).show();
+			initInlineForm($f, $(this).parents('.box').attr('id'), 'comment');
+			return false;
+		});
 	}
+	function closeInlineForm(){
+		$('#inline-form').removeClass('active').slideUp();
+		$('#reply').blur();
+	}
+	function initInlineForm($e, id, type){
+		$e.find('#inline-form-type').val(type);
+		$e.find('#inline-form-parent-id').val(id);
+		$e.addClass('active');
+		if(type == 'comment'){
+			$e.find('span.typetext').text('评论');
+			$e.find('#inline-form-submit').text('匿名评论');
+		}
+		if(type == 'repost'){
+			$e.find('span.typetext').text('转发');
+			$e.find('#inline-form-submit').text('匿名转发');
+		}
+		$('#reply').focus();
+	}
+	$('#reply-weibo-form').on('keydown', function(e){
+		if(e.keyCode == 27){
+			closeInlineForm();
+			e.preventDefault();
+			return false;
+		}
+		if(e.keyCode == 13 && e.ctrlKey == true){
+			$('#reply-weibo-form').submit();
+			e.preventDefault();
+			return false;
+		}
+	});
+	$('#reply-weibo-form').submit(function(e){
+		e.preventDefault();
+		if(wbGetLength($('#reply').val()) == 0){
+			$('#reply').val('').focus();
+			e.preventDefault();
+			return false;
+		}
+		if(wbGetLength($('#reply').val()) > 135){
+			createMsgCard('字数过多，请不要做话痨 :)', 'new-weibo-length', 'error', 3000, $(this).parents('.box'));
+			$('#reply').focus();
+			e.preventDefault();
+			return false;
+		}
+		// Ajax here!
+		$('#msg-id-inline-callback').remove();
+		$(this).parents('.box').after('<div id="msg-id-inline-callback" class="box progress-bar-striped active"><div class="box-content"><p>正在发布</p></div></div>');
+		closeInlineForm();
+		clearTimeout(timeouts['inline-callback']);
+		setTimeout(function(){
+			$('#msg-id-inline-callback').removeClass('progress-bar-striped active');
+			if(Math.random() > 0.3){ // success
+				$('#msg-id-inline-callback').addClass('success').find('p:first').text('发布成功');
+				timeouts['inline-callback'] = setTimeout(function(){
+					$('#msg-id-inline-callback').remove();
+				}, 5000);
+				$('#reply-weibo-form')[0].reset();
+			}else{
+				$('#inline-form').show();
+				$('#reply').focus();
+				$('#msg-id-inline-callback').addClass('error').find('p:first').text('发布失败（未知错误）');
+				timeouts['inline-callback'] = setTimeout(function(){
+					$('#msg-id-inline-callback').remove();
+				}, 5000);
+			}
+			
+		}, 2000);
+		return false;
+	});
 	function generateWeiboCard(data, $return){
 		// data: {}
 		var ret = '<div class="box"><div class="box-content-e"><p>'+$('<div/>').text(data.content).html()+'</p></div><div class="box-upper"><div class="left time"><p>'+data.createdAt+' <a href="'+data.link+'" target="_blank" class="btn" title="返回微博看图、点赞">更多</a></p></div><div class="right"><p><a href="'+data.link+'?type=repost" class="btn comment">评论('+data.cmtCount+')</a><a href="'+data.link+'?type=comment" class="btn repost">转发('+data.repCount+')</a></p></div></div></div>';
@@ -209,15 +300,24 @@ $(function(){
 			return ret;
 		}
 	}
-	function createMsgCard(content, id, type, timeout){
+	function createMsgCard(content, id, type, timeout, appendAfter){
 		if(!type) var type = 'error';
-		if(!timeout) var timeout = 5000;
+		if(timeout === undefined) var timeout = 5000;
 		if($('#msg-id-'+id).length){
 			var $e = $('#msg-id-'+id).find('p:first').text(content).end();
 			clearTimeout(timeouts['msg-id-'+id]);
 		}else{
-			var $e = $('<div id="msg-id-'+id+'" class="box '+type+'"><div class="box-content"><p>'+$('<div/>').text(content).html()+'</p></div></div>').prependTo('#content');
+			var $e = $('<div id="msg-id-'+id+'" class="box '+type+'"><div class="box-content"><p>'+$('<div/>').text(content).html()+'</p></div></div>').on('click', function(){$(this).remove();});
+			if(!appendAfter){
+				$e.prependTo('#content');
+			}else{
+				appendAfter.after($e);
+			}
 		}
-		timeouts['msg-id-'+id] = setTimeout(function(){$e.remove();}, timeout);
+		if(timeout !== 0) timeouts['msg-id-'+id] = setTimeout(function(){$e.remove();}, timeout);
 	}
+
+	$('#content .box').each(function(i, e){
+		bindWeiboCard($(e));
+	});
 });

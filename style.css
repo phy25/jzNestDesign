@@ -152,26 +152,26 @@ abbr{border-bottom: 1px dotted #333;}
 /* Thanks to Bootstrap */
 @-webkit-keyframes progress-bar-stripes {
   from {
-    background-position: 40px 0;
+    background-position: 0 0;
   }
   to {
-    background-position: 0 0;
+    background-position: 40px 0;
   }
 }
 @-o-keyframes progress-bar-stripes {
   from {
-    background-position: 40px 0;
+    background-position: 0 0;
   }
   to {
-    background-position: 0 0;
+    background-position: 40px 0;
   }
 }
 @keyframes progress-bar-stripes {
   from {
-    background-position: 40px 0;
+    background-position: 0 0;
   }
   to {
-    background-position: 0 0;
+    background-position: 40px 0;
   }
 }
 .progress-bar-striped{
