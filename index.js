@@ -151,9 +151,8 @@ $(function(){
 			$('#new-weibo-content').hide();
 			$('#new-weibo-cover').show();
 		});
-	}else{
-		createMsgCard('已进入 3D 模式。', 'non-3d', 'success', 0);
 	}
+	
 	$('#new-weibo-form').submit(function(e){
 		e.preventDefault();
 		if(wbGetLength($('#status').val()) == 0){
@@ -257,7 +256,6 @@ $(function(){
 		}
 	});
 	$('#reply-weibo-form').submit(function(e){
-		e.preventDefault();
 		if(wbGetLength($('#reply').val()) == 0){
 			$('#reply').val('').focus();
 			e.preventDefault();
