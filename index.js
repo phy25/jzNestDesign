@@ -74,6 +74,9 @@ $(function(){
 			}, 600);
 			$('#new-weibo-outer').addClass('on');
 			$('#status').focus();
+			if(localStorage){
+				localStorage['jzth_nwopened'] = 'on';
+			}
 		}
 	});
 	/*
@@ -85,6 +88,9 @@ $(function(){
 	*/
 	$('#new-weibo-close').click(function(){
 		$('#new-weibo-outer').removeClass('on');
+		if(localStorage){
+			localStorage['jzth_nwopened'] = 'off';
+		}
 	});
 	$('#new-weibo-content').on('keydown', function(e){
 		if(e.keyCode == 27){
@@ -361,7 +367,8 @@ $(function(){
 	});
 
 	// Autosave Revert
-	if(!$('#status').val() && localStorage){
-		$('#status').val(localStorage['jzth_status']);
+	if(localStorage){
+		if(!$('#status').val()) $('#status').val(localStorage['jzth_status']);
+		if(localStorage['jzth_nwopened'] == 'off') $('#new-weibo-close').click();
 	}
 });
