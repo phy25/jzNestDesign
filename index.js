@@ -151,6 +151,8 @@ $(function(){
 			$('#box-flipper-backer').hide();
 			$('#box-flipper-fronter').show();
 		});
+	}else{
+		createMsgCard('已进入 3D 模式。', 'non-3d', 'success', 0);
 	}
 	$('#new-weibo-form').submit(function(e){
 		e.preventDefault();
@@ -324,7 +326,8 @@ $(function(){
 		bindWeiboCard($(e));
 	});
 
-	$('a.ajax').click(function(){
+	$('a.ajax').click(function(e){
+		e.preventDefault();
 		if(!$('#ajaxContent').length) $('#content').before('<div id="ajaxContent"></div>');
 		var $ac = $('#ajaxContent').html('<div class="box progress-bar-striped active"><div class="box-content"><p class="center">正在加载</p></div></div>');
 		$.get(this.href)
