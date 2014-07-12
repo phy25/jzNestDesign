@@ -139,17 +139,17 @@ $(function(){
 		}
 	});
 	if(!supportsTransitions()){
-		createMsgCard('已进入非 3D 模式。', 'non-3d', 'success', 0);
-		$('#box-flipper-backer').hide();
+		// createMsgCard('已进入非 3D 模式。', 'non-3d', 'success', 0);
+		$('#new-weibo-cover').hide();
 		$('#new-weibo-cover').click(function(){
 			if(!$(this).is('.active')){
-				$('#box-flipper-fronter').hide();
-				$('#box-flipper-backer').show();
+				$('#new-weibo-cover').hide();
+				$('#new-weibo-content').show();
 			}
 		});
 		$('#new-weibo-close').click(function(){
-			$('#box-flipper-backer').hide();
-			$('#box-flipper-fronter').show();
+			$('#new-weibo-content').hide();
+			$('#new-weibo-cover').show();
 		});
 	}else{
 		createMsgCard('已进入 3D 模式。', 'non-3d', 'success', 0);
@@ -179,8 +179,10 @@ $(function(){
 			if(Math.random() > 0.3){ // success
 				$('#new-weibo-cover').addClass('success');
 				$('#new-weibo-progress').text('发布成功');
-				// **TODO**:插入到主 timeline
-				generateWeiboCard({content: $('#status').val(), createdAt: new Date(), cmtCount: 0, repCount: 0, link: 'http://weibo.com/5186976438/BcVVLAySG'}, true).hide().prependTo('#content').slideDown();
+				
+				var date = new Date(), dateText = (date.getMonth()+1)+'/'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
+
+				generateWeiboCard({content: $('#status').val(), createdAt: dateText, cmtCount: 0, repCount: 0, link: 'http://weibo.com/5186976438/BcVVLAySG', source: 'Web'}, true).hide().prependTo('#content').slideDown();
 				timeouts['new-weibo-callback'] = setTimeout(function(){
 					$('#new-weibo-cover').removeClass('success');
 				}, 5000);// **TODO**:Timeout 清除
@@ -296,7 +298,7 @@ $(function(){
 	});
 	function generateWeiboCard(data, $return){
 		// data: {}
-		var ret = '<div class="box"><div class="box-content-e"><p>'+$('<div/>').text(data.content).html()+'</p></div><div class="box-upper"><div class="left time"><p>'+data.createdAt+' <a href="'+data.link+'" target="_blank" class="btn" title="返回微博看图、点赞">更多</a></p></div><div class="right"><p><a href="'+data.link+'?type=repost" class="btn comment">评论('+data.cmtCount+')</a><a href="'+data.link+'?type=comment" class="btn repost">转发('+data.repCount+')</a></p></div></div></div>';
+		var ret = '<div class="box"><div class="box-content-e"><p>'+$('<div/>').text(data.content).html()+'</p></div><div class="box-upper"><div class="left time"><p><time>'+data.createdAt+'</time> #'+data.source+' <a href="'+data.link+'" target="_blank" class="btn" title="返回微博看图、点赞">更多</a></p></div><div class="right"><p><a href="'+data.link+'?type=repost" class="btn repost">转发('+data.repCount+')</a><a href="'+data.link+'?type=comment" class="btn comment">评论('+data.cmtCount+')</a></p></div></div></div>';
 		if($return){
 			var $e = $(ret);
 			bindWeiboCard($e);
