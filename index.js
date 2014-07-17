@@ -102,7 +102,7 @@ $(function(){
 			}, 600);
 			$('#new-weibo-outer').addClass('on');
 			$('#status').focus();
-			if(localStorage){
+			if(typeof localStorage !== 'undefined'){
 				localStorage['jzth_nwopened'] = 'on';
 			}
 		}
@@ -116,7 +116,7 @@ $(function(){
 	*/
 	$('#new-weibo-close').click(function(){
 		$('#new-weibo-outer').removeClass('on');
-		if(localStorage){
+		if(typeof localStorage !== 'undefined'){
 			localStorage['jzth_nwopened'] = 'off';
 		}
 	});
@@ -138,7 +138,7 @@ $(function(){
 		$('#new-weibo-counter').text(l)[l < 0 ? 'addClass':'removeClass']('warning');
 
 		// AutoSave, 向新浪看齐，只做主微博保存，不做评论保存
-		if(!init && localStorage){
+		if(!init && typeof localStorage !== 'undefined'){
 			localStorage['jzth_status'] = this.value;
 		}
 	}).trigger('paste', [true]);
@@ -404,7 +404,7 @@ $(function(){
 	});
 
 	// Autosave Revert
-	if(localStorage){
+	if(typeof localStorage !== 'undefined'){
 		if(!$('#status').val()) $('#status').val(localStorage['jzth_status']);
 		if(localStorage['jzth_nwopened'] == 'off') $('#new-weibo-close').click();
 	}
