@@ -1,3 +1,8 @@
+/*
+Jinzhong_Nest Web index.js
+By @Phy25
+Other credits left through the script
+*/
 $(function(){
 	var timeouts = {}, fakeajax = true, sd_id = '5186976438';
 	function supportsTransitions() {
