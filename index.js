@@ -212,14 +212,21 @@ $(function(){
 		$('#msg-id-new-weibo-failure').remove();
 
 		var success = function(text){
-			if((/^[0-9]*$/).test(text) || text == 'fakeajax'){// 全为数字
+			if(text.indexOf('okay') == 0 || text == 'fakeajax'){// 尝试匹配 mid
+				var s = text.split('.');
+				if(text == 'fakeajax' || !s[1]){
+					s = false;
+				}else{
+					s = s[1];
+				}
+
 				$('#new-weibo-cover').removeClass('progress-bar-striped active')
 					.addClass('success');
 				$('#new-weibo-progress').text('发布成功');
 				
 				var date = new Date(), dateText = (date.getMonth()+1)+'/'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
 
-				generateWeiboCard({content: $('#status').val(), createdAt: dateText, cmtCount: 0, repCount: 0, link: 'http://weibo.com/'+ sd_id + '/' + (text != 'fakeajax' ? text : ''), source: 'Web'}, true).hide().prependTo('#content').slideDown();
+				generateWeiboCard({content: $('#status').val(), createdAt: dateText, cmtCount: 0, repCount: 0, link: 'http://weibo.com/'+ sd_id + '/' + (s !== false ? s : ''), source: 'Web'}, true).hide().prependTo('#content').slideDown();
 				timeouts['new-weibo-callback'] = setTimeout(function(){
 					$('#new-weibo-cover').removeClass('success');
 				}, 5000);
