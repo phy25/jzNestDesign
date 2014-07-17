@@ -1,3 +1,4 @@
+// Ajax 有大 BUG！会导致假死！
 $(function(){
 	var timeouts = {}, fakeajax = true, sd_id = '5186976438';
 	function supportsTransitions() {
