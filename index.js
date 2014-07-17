@@ -1,6 +1,8 @@
 $(function(){
 	var timeouts = {};
 	function supportsTransitions() {
+		if(is360Browser()) return false;
+
 	    var b = document.body || document.documentElement,
 	        s = b.style,
 	        p = 'transition';
@@ -16,6 +18,32 @@ $(function(){
 	    }
 
 	    return false;
+	}
+	// Thanks to http://festatic.aliapp.com/js/jquery.ua/1.3/jquery.ua.js
+	function is360Browser(){
+		var _track = 'track' in document.createElement('track'),
+			_style = 'scoped' in document.createElement('style'),
+			_v8locale = 'v8Locale' in window;
+
+		var _mime = function(where, value, name, nameReg) {
+			var mimeTypes = window.navigator.mimeTypes;
+
+			for (i in mimeTypes) {
+			    if (mimeTypes[i][where] == value) {
+			        if (name !== undefined && nameReg.test(mimeTypes[i][name])) return !0;
+			        else if (name === undefined) return !0;
+			    }
+			}
+			return !1;
+		}
+
+		if(!_mime('type', 'application/vnd.chromium.remoting-viewer') && _track){
+			// 360极速浏览器
+			if (!_style && !_v8locale && /Gecko\)\s+Chrome/.test(window.navigator.appVersion)) return true;
+			// 360安全浏览器
+			if (_style && _v8locale) return true;
+		}
+		return false;
 	}
 	var wbGetLength = (function(){ 
 		var trim = function(h) { 
@@ -105,7 +133,7 @@ $(function(){
 			return false;
 		}
 	});
-	$('#status').on('keyup keydown paste', function(event, init){
+	$('#status').on('keyup keydown paste change', function(event, init){
 		var l = 136 - wbGetLength(this.value);
 		$('#new-weibo-counter').text(l)[l < 0 ? 'addClass':'removeClass']('warning');
 
@@ -156,6 +184,7 @@ $(function(){
 			if(!$(this).is('.active')){
 				$('#new-weibo-cover').hide();
 				$('#new-weibo-content').show();
+				$('#status').focus();
 			}
 		});
 		$('#new-weibo-close').click(function(){
