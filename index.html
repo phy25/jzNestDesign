@@ -31,7 +31,7 @@
 				<div id="new-weibo-content" class="box box-flipper-backer">
 					<form id="new-weibo-form" method="POST" action="/status" enctype="multipart/form-data">
 						<div class="box-content-e">
-							<textarea name="text" id="status" rows="4" placeholder="想说什么？" tabindex="1" required></textarea>
+							<textarea name="text" id="status" rows="4" placeholder="想说什么？请不要发布无意义内容、骂人。" tabindex="1" required></textarea>
 							<input type="file" name="pic" id="pic" class="hide" accept=".jpg, .jpeg, .gif, .png" tabindex="-1" />
 						</div>
 						<div class="box-upper">
@@ -192,7 +192,7 @@
 	<div class="clear"></div>
 	<div id="inline-form" class="clear inline-form hide">
 		<form action="/cmrp" id="reply-weibo-form" method="POST">
-			<input type="text" name="text" id="reply" rows="1" placeholder="想说什么？" required tabindex="11" />
+			<input type="text" name="text" id="reply" rows="1" placeholder="想说什么？不可以 @ 别人。" required tabindex="11" />
 			<p class="right muted">实名<span class="typetext">评论</span>请<a href="#" tabindex="13" class="backlink" target="_blank">回微博</a>撰写 <button type="submit" class="btn" tabindex="12" id="inline-form-submit">匿名评论</button><input type="hidden" name="name" id="inline-form-type" value="comment" /><input type="hidden" name="id" id="inline-form-parent-id" value="" /></p>
 		</form>
 	</div>
