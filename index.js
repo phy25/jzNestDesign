@@ -1,5 +1,5 @@
 $(function(){
-	var timeouts = {};
+	var timeouts = {}, fakeajax = true;
 	function supportsTransitions() {
 		if(is360Browser()) return false;
 
@@ -194,6 +194,9 @@ $(function(){
 	}
 
 	$('#new-weibo-form').submit(function(e){
+		if(typeof operamini !== 'undefined'){
+			return true;
+		}
 		e.preventDefault();
 		if(wbGetLength($('#status').val()) == 0){
 			$('#status').val('').focus();
@@ -207,7 +210,7 @@ $(function(){
 			return false;
 		}
 		$('#msg-id-new-weibo-failure').remove();
-		// Ajax here!
+		// fakeajax
 		$('#new-weibo-progress').text('正在发布');
 		$('#new-weibo-cover').addClass('progress-bar-striped active');
 		$('#new-weibo-close').click();
@@ -304,18 +307,21 @@ $(function(){
 		}
 	});
 	$('#reply-weibo-form').submit(function(e){
+		if(typeof operamini !== 'undefined'){
+			return true;
+		}
+		e.preventDefault();
 		if(wbGetLength($('#reply').val()) == 0){
 			$('#reply').val('').focus();
-			e.preventDefault();
 			return false;
 		}
 		if(wbGetLength($('#reply').val()) > 135){
 			createMsgCard('字数过多，请不要做话痨 :)', 'new-weibo-length', 'error', 3000, $(this).parents('.box'));
 			$('#reply').focus();
-			e.preventDefault();
 			return false;
 		}
-		// Ajax here!
+
+		// fakeajax
 		$('#msg-id-inline-callback').remove();
 		$(this).parents('.box').after('<div id="msg-id-inline-callback" class="box progress-bar-striped active"><div class="box-content center"><p>正在发布</p></div></div>');
 		closeInlineForm();
