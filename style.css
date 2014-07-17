@@ -12,6 +12,7 @@ abbr{border-bottom: 1px dotted #333;}
 .hide{display:none}
 .muted{color:#BBB;}
 .blank{padding:.5em 0;}
+.blank-leftupper{padding:4em 0;}
 .pointer{cursor: pointer;}
 
 #wrapper{max-width:1400px;width:auto;margin:0 auto;position:relative;}
@@ -247,6 +248,7 @@ abbr{border-bottom: 1px dotted #333;}
 	#left>.container{padding:0;}
 	#right{float:none;width:100%;}
 	#sm-brand{display:block;}
+	.mobile-hide{display: none;}
 	#left .ads.box{display:block;}
 }
 @media (max-width: 530px) {
