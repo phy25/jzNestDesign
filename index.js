@@ -1,4 +1,3 @@
-// Ajax 有大 BUG！会导致假死！
 $(function(){
 	var timeouts = {}, fakeajax = true, sd_id = '5186976438';
 	function supportsTransitions() {
@@ -96,103 +95,6 @@ $(function(){
 		} 
 	})();
 
-	var WeiboUtility = {};
-
-	/**
-	 * 62进制字典
-	 */
-	WeiboUtility.str62keys = [
-		"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-		"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
-		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
-	];
-
-	/**
-	 * 62进制值转换为10进制
-	 * @param {String} str62 62进制值
-	 * @return {String} 10进制值
-	 */
-	WeiboUtility.str62to10 = function(str62) {
-		var i10 = 0;
-		for (var i = 0; i < str62.length; i++)
-		{
-			var n = str62.length - i - 1;
-			var s = str62[i];
-			i10 += this.str62keys.indexOf(s) * Math.pow(62, n);
-		}
-		return i10;
-	};
-
-	/**
-	 * 10进制值转换为62进制
-	 * @param {String} int10 10进制值
-	 * @return {String} 62进制值
-	 */
-	WeiboUtility.int10to62 = function(int10) {
-		var s62 = '';
-		var r = 0;
-		while (int10 != 0)
-		{
-			r = int10 % 62;
-			s62 = this.str62keys[r] + s62;
-			int10 = Math.floor(int10 / 62);
-		}
-		return s62;
-	};
-
-	/**
-	 * URL字符转换为mid
-	 * @param {String} url 微博URL字符，如 "wr4mOFqpbO"
-	 * @return {String} 微博mid，如 "201110410216293360"
-	 */
-	WeiboUtility.url2mid = function(url) {
-		var mid = '';
-		
-		for (var i = url.length - 4; i > -4; i = i - 4)	//从最后往前以4字节为一组读取URL字符
-		{
-			var offset1 = i < 0 ? 0 : i;
-			var offset2 = i + 4;
-			var str = url.substring(offset1, offset2);
-			
-			str = this.str62to10(str);
-			if (offset1 > 0)	//若不是第一组，则不足7位补0
-			{
-				while (str.length < 7)
-				{
-					str = '0' + str;
-				}
-			}
-			
-			mid = str + mid;
-		}
-		
-		return mid;
-	};
-
-	/**
-	 * mid转换为URL字符
-	 * @param {String} mid 微博mid，如 "201110410216293360"
-	 * @return {String} 微博URL字符，如 "wr4mOFqpbO"
-	 */
-	WeiboUtility.mid2url = function(mid) {
-		if (typeof(mid) != 'string') return false;	//mid数值较大，必须为字符串！
-		
-		var url = '';
-		
-		for (var i = mid.length - 7; i > -7; i = i - 7)	//从最后往前以7字节为一组读取mid
-		{
-			var offset1 = i < 0 ? 0 : i;
-			var offset2 = i + 7;
-			var num = mid.substring(offset1, offset2);
-			
-			num = this.int10to62(num);
-			url = num + url;
-		}
-		
-		return url;
-	};
-
-
 	$('#new-weibo-cover').click(function(){
 		if(!$(this).is('.active')){
 			setTimeout(function(){
@@ -231,7 +133,7 @@ $(function(){
 			return false;
 		}
 	});
-	$('#status').on('keyup keydown paste change', function(event, init){
+	$('#status').on('keyup keydown paste', function(event, init){
 		var l = 136 - wbGetLength(this.value);
 		$('#new-weibo-counter').text(l)[l < 0 ? 'addClass':'removeClass']('warning');
 
@@ -309,17 +211,6 @@ $(function(){
 		}
 		$('#msg-id-new-weibo-failure').remove();
 
-		if(!fakeajax){
-			$(this).ajaxSubmit({data:{'ajax': true}, dataType: 'text', success: success, error: error});
-		}else{
-			setTimeout(function(){
-				if(Math.random() > 0.3){ // success
-					success('fakeajax');
-				}else{ // error
-					error({}, '调试中，无法提交');
-				}
-			}, 2000);
-		}
 		var success = function(text){
 			if((/^[0-9]*$/).test(text) || text == 'fakeajax'){// 全为数字
 				$('#new-weibo-cover').removeClass('progress-bar-striped active')
@@ -328,23 +219,31 @@ $(function(){
 				
 				var date = new Date(), dateText = (date.getMonth()+1)+'/'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
 
-				generateWeiboCard({content: $('#status').val(), createdAt: dateText, cmtCount: 0, repCount: 0, link: 'http://weibo.com/'+ sd_id + '/' + WeiboUtility.mid2url(text), source: 'Web'}, true).hide().prependTo('#content').slideDown();
+				generateWeiboCard({content: $('#status').val(), createdAt: dateText, cmtCount: 0, repCount: 0, link: 'http://weibo.com/'+ sd_id + '/' + (text != 'fakeajax' ? text : ''), source: 'Web'}, true).hide().prependTo('#content').slideDown();
 				timeouts['new-weibo-callback'] = setTimeout(function(){
 					$('#new-weibo-cover').removeClass('success');
 				}, 5000);
 				$('#new-weibo-form')[0].reset();
-			}else if(text == 'other'){
-				error({}, 'other');
 			}else{
+				if(text.indexOf('gap') == 0){
+					var s = text.split('.')[1];
+					error({}, '为防刷屏，请等待 '+s+' 秒，再发布新树洞');
+					// TODO: 很粗暴，如果能在网页端做一些显示优化，如进度条提示之类的会好一些 / 当然不是很有必要
+					return false;
+				}
+				if(text == 'other'){
+					error({}, 'other');
+					return false;
+				}
 				error({}, '程序错误：'+text);
 			}
 		};
 		var error = function(x, t){
+			if(t == 'other') t = '字数过多，图片格式有误，或微博系统繁忙等';
 			$('#new-weibo-cover').removeClass('progress-bar-striped active');
 			$('#status').focus();
 			$('#new-weibo-cover').click();
-			if(t == 'other') t = '字数过多，或者微博系统繁忙等';
-			createMsgCard('发布失败（'+t+'）', 'new-weibo-failure'); // TODO:这里做得很粗暴
+			createMsgCard('发布失败（'+t+'）', 'new-weibo-failure', 'error', 0); // TODO:这里做得很粗暴
 			/*timeouts['new-weibo-callback'] = setTimeout(function(){
 				$('#new-weibo-cover').removeClass('progress-bar-striped error');
 			}, 5000);*/
@@ -354,6 +253,17 @@ $(function(){
 		$('#new-weibo-close').click();
 		$('#status').blur();
 		clearTimeout(timeouts['new-weibo-callback']);
+		if(!fakeajax){
+			$(this).ajaxSubmit({data:{'ajax': true}, dataType: 'text', success: success, error: error});
+		}else{
+			setTimeout(function(){
+				if(Math.random() > 0.3){ // success
+					success('fakeajax');
+				}else{ // error
+					error({}, '为防刷屏，请等待 3 秒，再发布新树洞');
+				}
+			}, 2000);
+		}
 		
 		return false;
 	});
@@ -436,32 +346,59 @@ $(function(){
 			$('#reply').focus();
 			return false;
 		}
-
-		// fakeajax
-		$('#msg-id-inline-callback').remove();
-		$(this).parents('.box').after('<div id="msg-id-inline-callback" class="box progress-bar-striped active"><div class="box-content center"><p>正在发布</p></div></div>');
-		closeInlineForm();
-		clearTimeout(timeouts['inline-callback']);
-		setTimeout(function(){
-			$('#msg-id-inline-callback').removeClass('progress-bar-striped active');
-			if(Math.random() > 0.3){ // success
-				$('#msg-id-inline-callback').addClass('success pointer').click(function(){$(this).remove();return false;})
+		var success = function(text){
+			if(text == 'okay' || text == 'fakeajax'){
+				$('#msg-id-inline-callback').removeClass('progress-bar-striped active')
+					.addClass('success pointer')
+					.click(function(){$(this).remove();return false;})
 					.find('p:first').text('发布成功');
 				timeouts['inline-callback'] = setTimeout(function(){
 					$('#msg-id-inline-callback').remove();
 				}, 5000);
 				$('#reply-weibo-form')[0].reset();
 			}else{
-				$('#inline-form').show();
-				$('#reply').focus();
-				$('#msg-id-inline-callback').addClass('error pointer').click(function(){$(this).remove();return false;})
-					.find('p:first').text('发布失败（未知错误）');
-				timeouts['inline-callback'] = setTimeout(function(){
-					$('#msg-id-inline-callback').remove();
-				}, 5000);
+				if(text.indexOf('gap') == 0){
+					var s = text.split('.')[1];
+					error({}, '为防刷屏，请等待 '+s+' 秒，再发布新树洞');
+					// TODO: 很粗暴，如果能在网页端做一些显示优化，如进度条提示之类的会好一些 / 当然不是很有必要
+					return false;
+				}
+				if(text == 'other'){
+					error({}, 'other');
+					return false;
+				}
+				error({}, '程序错误：'+text);
 			}
-			
-		}, 2000);
+		};
+		var error = function(x, t){
+			if(t == 'other') t = '字数过多，或者微博系统繁忙等';
+			$('#new-weibo-cover').removeClass('progress-bar-striped active');
+			$('#inline-form').show();
+			$('#reply').focus();
+			$('#msg-id-inline-callback').addClass('error pointer')
+				.click(function(){$(this).remove();return false;})
+				.find('p:first').text('发布失败（'+t+'）');
+			timeouts['inline-callback'] = setTimeout(function(){
+				$('#msg-id-inline-callback').remove();
+			}, 10000);
+		};
+		// fakeajax
+		$('#msg-id-inline-callback').remove();
+		$(this).parents('.box').after('<div id="msg-id-inline-callback" class="box progress-bar-striped active"><div class="box-content center"><p>正在发布</p></div></div>');
+		closeInlineForm();
+		clearTimeout(timeouts['inline-callback']);
+		if(!fakeajax){
+			$(this).ajaxSubmit({data:{'ajax': true}, dataType: 'text', success: success, error: error});
+		}else{
+			setTimeout(function(){
+				if(Math.random() > 0.3){ // success
+					success('fakeajax');
+				}else{ // error
+					error({}, '为防刷屏，请等待 3 秒，再发布新树洞');
+				}
+			}, 2000);
+		}
+		
 		return false;
 	});
 	function generateWeiboCard(data, $return){
@@ -497,6 +434,9 @@ $(function(){
 	});
 
 	$('a.ajax').click(function(e){
+		if(typeof operamini !== 'undefined'){
+			return true;
+		}
 		e.preventDefault();
 		if(!$('#ajaxContent').length) $('#content').before('<div id="ajaxContent"></div>');
 		var $ac = $('#ajaxContent').html('<div class="box progress-bar-striped active"><div class="box-content center"><p>正在加载</p></div></div>');
