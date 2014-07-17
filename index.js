@@ -37,7 +37,7 @@ $(function(){
 			return !1;
 		}
 
-		if(!_mime('type', 'application/vnd.chromium.remoting-viewer') && _track){
+		if(!_mime('type', 'application/vnd.chromium.remoting-viewer') && window.chrome && _track){
 			// 360极速浏览器
 			if (!_style && !_v8locale && /Gecko\)\s+Chrome/.test(window.navigator.appVersion)) return true;
 			// 360安全浏览器
@@ -378,20 +378,28 @@ $(function(){
 		e.preventDefault();
 		if(!$('#ajaxContent').length) $('#content').before('<div id="ajaxContent"></div>');
 		var $ac = $('#ajaxContent').html('<div class="box progress-bar-striped active"><div class="box-content center"><p>正在加载</p></div></div>');
-		$.get(this.href)
-			.done(function(data){
+
+		var done = function(data){
 				$ac.empty().hide();
-				// Thanks to jQuery.load(): removing the scripts
-				// to avoid any 'Permission Denied' errors in IE
-				var $d = $("<div>").append(data.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ""));
+				
+				if(typeof data == 'object'){
+					var $d = $(data);
+				}else{
+					// Thanks to jQuery.load(): removing the scripts
+					// to avoid any 'Permission Denied' errors in IE
+					var $d = $("<div>").append(data.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ""));				
+				}
 				$ac.append($d.find('#content').children()).slideDown();
-			})
-			.error(function(o){
+				window.scrollTo(0, 0);
+			}, error = function(o){
 				var $box = $ac.find('.box.active:first');
 				$box.addClass('error pointer').removeClass('progress-bar-striped active')
 					.find('p:first').text('载入错误（'+o.statusText+', '+o.status+'）');
 				$box.click(function(){$(this).remove();return false;});
-			});
+			};
+		$.get(this.href)
+			.done(done)
+			.error(error);
 		return false;
 	});
 

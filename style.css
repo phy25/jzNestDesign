@@ -233,12 +233,14 @@ abbr{border-bottom: 1px dotted #333;}
 
 
 #left{padding: 3em 0 0;}
-#sm-brand{display:none;margin:0;padding:.5em 0;border-bottom:1px solid #DDD;background:#EEE;display:relative;}
+#sm-brand{display:none;margin:0;padding:.5em 0;border-bottom:1px solid #DDD;background:#EEE;position:relative;}
 #sm-brand h1{font-size:1.1em;text-align:center;line-height:1.1em;margin:0;padding:0;}
 #sm-brand .info{position:absolute;left:0;top:0;margin: .5em 1em;}
 #sm-brand .btn{border:1px solid #DDD;text-decoration:none;color:#000;font-size:.9em;}
 
 #left .ads.box{display:none;}
+.box.qrcode{text-align: center;}
+.box.qrcode img{max-width: 240px;}
 
 @media (max-width: 900px) {
 	#left{float:none;width:100%;}
