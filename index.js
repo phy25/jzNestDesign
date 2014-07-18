@@ -300,6 +300,25 @@ $(function(){
 			initInlineForm($f, $(this).parents('.box'), 'comment');
 			return false;
 		});
+		var $p = $e.find('.box-content-e p:first');
+		$p.html(function(i, h){
+			var a = h.match(/^(.*)「(.+)」$/), s, t;// s = source, t = text
+			if(typeof a[2] !== 'undefined'){
+				s = a[2];
+				t = a[1];
+			}else{
+				s = 'Admin';
+				t = h;
+			}
+			if(s == 'wx'){
+				s = 'WeChat';
+			}
+			if(s == 'web'){
+				s = 'Web';
+			}
+			$e.find('span.source').text('#'+s);
+			return $.trim(t);
+		});
 	}
 	function closeInlineForm(){
 		$('#inline-form').removeClass('active').slideUp();
@@ -410,7 +429,7 @@ $(function(){
 	});
 	function generateWeiboCard(data, $return){
 		// data: {}
-		var ret = '<div class="box"><div class="box-content-e"><p>'+$('<div/>').text(data.content).html()+'</p></div><div class="box-upper"><div class="left time"><p><time>'+data.createdAt+'</time> #'+data.source+' <a href="'+data.link+'" target="_blank" class="btn morelink" title="返回微博看图、点赞">更多</a></p></div><div class="right"><p><a href="'+data.link+'?type=repost" class="btn repost">转发('+data.repCount+')</a><a href="'+data.link+'?type=comment" class="btn comment">评论('+data.cmtCount+')</a></p></div></div></div>';
+		var ret = '<div class="box"><div class="box-content-e"><p>'+$('<div/>').text(data.content).html()+'</p></div><div class="box-upper"><div class="left time"><p><time>'+data.createdAt+'</time> <span class="source">#'+data.source+'</span> <a href="'+data.link+'" target="_blank" class="btn morelink" title="返回微博看图、点赞">更多</a></p></div><div class="right"><p><a href="'+data.link+'?type=repost" class="btn repost">转发('+data.repCount+')</a><a href="'+data.link+'?type=comment" class="btn comment">评论('+data.cmtCount+')</a></p></div></div></div>';
 		if($return){
 			var $e = $(ret);
 			bindWeiboCard($e);
