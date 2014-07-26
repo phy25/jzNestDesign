@@ -229,7 +229,12 @@ $(function(){
 					.addClass('success');
 				$('#new-weibo-progress').text('发布成功');
 				
-				var date = new Date(), dateText = (date.getMonth()+1)+'/'+date.getDate()+' '+date.getHours()+':'+date.getMinutes();
+				var date = new Date(), mo = date.getMonth()+1, da = date.getDate(), hr = date.getHours(), mi = date.getMinutes();
+				if(mo<10) mo = '0'+mo;
+				if(da<10) da = '0'+da;
+				if(hr<10) hr = '0'+hr;
+				if(mi<10) mi = '0'+mi;
+				var dateText = mo+'/'+da+' '+hr+':'+mi;
 
 				generateWeiboCard({content: $('#status').val(), createdAt: dateText, cmtCount: 0, repCount: 0, link: 'http://weibo.com/'+ sd_id + '/' + (s !== false ? s : ''), source: 'Web'}, true).hide().prependTo('#content').slideDown();
 				timeouts['new-weibo-callback'] = setTimeout(function(){
