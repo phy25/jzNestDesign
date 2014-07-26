@@ -236,7 +236,7 @@ $(function(){
 				if(mi<10) mi = '0'+mi;
 				var dateText = mo+'/'+da+' '+hr+':'+mi;
 
-				generateWeiboCard({content: $('#status').val(), createdAt: dateText, cmtCount: 0, repCount: 0, link: 'http://weibo.com/'+ sd_id + '/' + (s !== false ? s : ''), source: 'Web'}, true).hide().prependTo('#content').slideDown();
+				generateWeiboCard({content: $('#status').val(), createdAt: dateText, cmtCount: 0, repCount: 0, link: 'http://weibo.com/'+ sd_id + '/' + (s !== false ? s : ''), source: 'Web', id: false}, true).hide().prependTo('#content').slideDown();
 				timeouts['new-weibo-callback'] = setTimeout(function(){
 					$('#new-weibo-cover').removeClass('success');
 				}, 5000);
@@ -286,30 +286,33 @@ $(function(){
 	});
 
 	function bindWeiboCard($e){
-		$e.find('a.btn.repost').click(function(){
-			if($('#msg-id-inline-callback.active').length){
+		if($e.attr('id')){
+			$e.find('a.btn.repost').click(function(){
+				if($('#msg-id-inline-callback.active').length){
+					return false;
+				}
+				if($('#inline-form').is('.active') && $('#inline-form-type').val() == 'repost'){
+					closeInlineForm();
+					return false;
+				}
+				var $f = $('#inline-form').appendTo($(this).parents('.box-upper')).show();
+				initInlineForm($f, $(this).parents('.box'), 'repost');
 				return false;
-			}
-			if($('#inline-form').is('.active') && $('#inline-form-type').val() == 'repost'){
-				closeInlineForm();
+			});
+			$e.find('a.btn.comment').click(function(){
+				if($('#msg-id-inline-callback.active').length){
+					return false;
+				}
+				if($('#inline-form').is('.active') && $('#inline-form-type').val() == 'comment'){
+					closeInlineForm();
+					return false;
+				}
+				var $f = $('#inline-form').appendTo($(this).parents('.box-upper')).show();
+				initInlineForm($f, $(this).parents('.box'), 'comment');
 				return false;
-			}
-			var $f = $('#inline-form').appendTo($(this).parents('.box-upper')).show();
-			initInlineForm($f, $(this).parents('.box'), 'repost');
-			return false;
-		});
-		$e.find('a.btn.comment').click(function(){
-			if($('#msg-id-inline-callback.active').length){
-				return false;
-			}
-			if($('#inline-form').is('.active') && $('#inline-form-type').val() == 'comment'){
-				closeInlineForm();
-				return false;
-			}
-			var $f = $('#inline-form').appendTo($(this).parents('.box-upper')).show();
-			initInlineForm($f, $(this).parents('.box'), 'comment');
-			return false;
-		});
+			});
+		}
+		
 		var $p = $e.find('.box-content-e p:first');
 		$p.html(function(i, h){
 			var a = h.match(/^(.*)「(.+)」$/), s, t;// s = source, t = text
@@ -439,7 +442,7 @@ $(function(){
 	});
 	function generateWeiboCard(data, $return){
 		// data: {}
-		var ret = '<div class="box"><div class="box-content-e"><p>'+$('<div/>').text(data.content).html()+'</p></div><div class="box-upper"><div class="left time"><p><time>'+data.createdAt+'</time> <span class="source">#'+data.source+'</span> <a href="'+data.link+'" target="_blank" class="btn morelink" title="返回微博看图、点赞">更多</a></p></div><div class="right"><p><a href="'+data.link+'?type=repost" class="btn repost">转发('+data.repCount+')</a><a href="'+data.link+'?type=comment" class="btn comment">评论('+data.cmtCount+')</a></p></div></div></div>';
+		var ret = '<div class="box"'+(data.id?(' id="'+data.id+'"'):'')+'><div class="box-content-e"><p>'+$('<div/>').text(data.content).html()+'</p></div><div class="box-upper"><div class="left time"><p><time>'+data.createdAt+'</time> <span class="source">#'+data.source+'</span> <a href="'+data.link+'" target="_blank" class="btn morelink" title="返回微博看图、点赞">更多</a></p></div><div class="right"><p><a href="'+data.link+'?type=repost" class="btn repost">转发('+data.repCount+')</a><a href="'+data.link+'?type=comment" class="btn comment">评论('+data.cmtCount+')</a></p></div></div></div>';
 		if($return){
 			var $e = $(ret);
 			bindWeiboCard($e);
