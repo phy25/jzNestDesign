@@ -290,10 +290,15 @@ $(function(){
 			$e.find('a.btn.repost').click(function(){
 				if($('#msg-id-inline-callback.active').length){
 					return false;
+					// 防止正在提交时，打开表单
 				}
 				if($('#inline-form').is('.active') && $('#inline-form-type').val() == 'repost'){
-					closeInlineForm();
-					return false;
+					// 表单打开，且是相同状况
+					if($('#inline-form').parents('.box').attr('id') ==  $(this).parents('.box').attr('id')){
+						// 只在位于当前点击的微博下，关闭表单
+						closeInlineForm();
+						return false;
+					}
 				}
 				var $f = $('#inline-form').appendTo($(this).parents('.box-upper')).show();
 				initInlineForm($f, $(this).parents('.box'), 'repost');
@@ -302,10 +307,15 @@ $(function(){
 			$e.find('a.btn.comment').click(function(){
 				if($('#msg-id-inline-callback.active').length){
 					return false;
+					// 防止正在提交时，打开表单
 				}
 				if($('#inline-form').is('.active') && $('#inline-form-type').val() == 'comment'){
-					closeInlineForm();
-					return false;
+					// 表单打开，且是相同状况
+					if($('#inline-form').parents('.box').attr('id') ==  $(this).parents('.box').attr('id')){
+						// 只在位于当前点击的微博下，关闭表单
+						closeInlineForm();
+						return false;
+					}
 				}
 				var $f = $('#inline-form').appendTo($(this).parents('.box-upper')).show();
 				initInlineForm($f, $(this).parents('.box'), 'comment');
