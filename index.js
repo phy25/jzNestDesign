@@ -471,6 +471,7 @@ $(function(){
 		e.preventDefault();
 		if(!$('#ajaxContent').length) $('#content').before('<div id="ajaxContent"></div>');
 		var $ac = $('#ajaxContent').html('<div class="box progress-bar-striped active"><div class="box-content center"><p>正在加载</p></div></div>');
+		window.scrollTo(0, 0);
 
 		var done = function(data){
 				$ac.empty().hide();
@@ -483,7 +484,6 @@ $(function(){
 					var $d = $("<div>").append(data.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ""));				
 				}
 				$ac.append($d.find('#content').children()).slideDown();
-				window.scrollTo(0, 0);
 			}, error = function(o){
 				var $box = $ac.find('.box.active:first');
 				$box.addClass('error pointer').removeClass('progress-bar-striped active')
