@@ -230,7 +230,7 @@ $(function(){
 				$('#new-weibo-progress').text('发布成功');
 				
 				var date = new Date(), mo = date.getMonth()+1, da = date.getDate(), hr = date.getHours(), mi = date.getMinutes();
-				if(mo<10) mo = '0'+mo;
+				//if(mo<10) mo = '0'+mo;
 				if(da<10) da = '0'+da;
 				if(hr<10) hr = '0'+hr;
 				if(mi<10) mi = '0'+mi;
