@@ -1,6 +1,6 @@
 /*
 Jinzhong_Nest Web index.js
-By @Phy25
+By @Phy25 - 2014/07/29
 Other credits left through the script
 */
 $(function(){
@@ -218,10 +218,11 @@ $(function(){
 
 		var success = function(text){
 			if(text.indexOf('okay') == 0 || text == 'fakeajax'){// 尝试匹配 mid
-				var s = text.split('.');
+				var s = text.split('.'), id = false;
 				if(text == 'fakeajax' || !s[1]){
 					s = false;
 				}else{
+					if(s[2]) id = s[2];
 					s = s[1];
 				}
 
@@ -229,14 +230,16 @@ $(function(){
 					.addClass('success');
 				$('#new-weibo-progress').text('发布成功');
 				
-				var date = new Date(), mo = date.getMonth()+1, da = date.getDate(), hr = date.getHours(), mi = date.getMinutes();
-				//if(mo<10) mo = '0'+mo;
-				if(da<10) da = '0'+da;
+				var ma = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+				var date = new Date(), mo = ma[date.getMonth()], da = date.getDate(), hr = date.getHours(), mi = date.getMinutes(), se = date.getSeconds();
+				// if(da<10) da = '0'+da;
+				// 不需要补 0
 				if(hr<10) hr = '0'+hr;
 				if(mi<10) mi = '0'+mi;
-				var dateText = mo+'/'+da+' '+hr+':'+mi;
+				if(se<10) se = '0'+se;
+				var dateText = mo+' '+da+' '+hr+':'+mi+':'+se;
 
-				generateWeiboCard({content: $('#status').val()+'「web」', createdAt: dateText, cmtCount: 0, repCount: 0, link: 'http://weibo.com/'+ sd_id + '/' + (s !== false ? s : ''), id: false}, true).hide().prependTo('#content').slideDown();
+				generateWeiboCard({content: $('#status').val()+' 「web」', createdAt: dateText, cmtCount: 0, repCount: 0, link: 'http://weibo.com/'+ sd_id + '/' + (s !== false ? s : ''), id: id}, true).hide().prependTo('#content').slideDown();
 				timeouts['new-weibo-callback'] = setTimeout(function(){
 					$('#new-weibo-cover').removeClass('success');
 				}, 5000);
@@ -390,7 +393,7 @@ $(function(){
 			$('#reply').val('').focus();
 			return false;
 		}
-		if(wbGetLength($('#reply').val()) > 135){
+		if(wbGetLength($('#reply').val()) > 136){
 			createMsgCard('字数过多，请不要做话痨 :)', 'new-weibo-length', 'error', 3000, $(this).parents('.box'));
 			$('#reply').focus();
 			return false;
@@ -483,37 +486,40 @@ $(function(){
 		bindWeiboCard($(e));
 	});
 
-	$('a.ajax').click(function(e){
-		if(typeof operamini !== 'undefined'){
-			return true;
-		}
-		e.preventDefault();
-		if(!$('#ajaxContent').length) $('#content').before('<div id="ajaxContent"></div>');
-		var $ac = $('#ajaxContent').html('<div class="box progress-bar-striped active"><div class="box-content center"><p>正在加载</p></div></div>');
-		window.scrollTo(0, 0);
+	function $ajax_init($elem){
+		return $('a.ajax', $elem).click(function(e){
+			if(typeof operamini !== 'undefined'){
+				return true;
+			}
+			e.preventDefault();
+			if(!$('#ajaxContent').length) $('#content').before('<div id="ajaxContent"></div>');
+			var $ac = $('#ajaxContent').html('<div class="box progress-bar-striped active"><div class="box-content center"><p>正在加载</p></div></div>');
+			window.scrollTo(0, 0);
 
-		var done = function(data){
-				$ac.empty().hide();
-				
-				if(typeof data == 'object'){
-					var $d = $(data);
-				}else{
-					// Thanks to jQuery.load(): removing the scripts
-					// to avoid any 'Permission Denied' errors in IE
-					var $d = $("<div>").append(data.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ""));				
-				}
-				$ac.append($d.find('#content').children()).slideDown();
-			}, error = function(o){
-				var $box = $ac.find('.box.active:first');
-				$box.addClass('error pointer').removeClass('progress-bar-striped active')
-					.find('p:first').text('载入错误（'+o.statusText+', '+o.status+'）');
-				$box.click(function(){$(this).remove();return false;});
-			};
-		$.get(this.href)
-			.done(done)
-			.error(error);
-		return false;
-	});
+			var done = function(data){
+					$ac.empty().hide();
+					
+					if(typeof data == 'object'){
+						var $d = $(data);
+					}else{
+						// Thanks to jQuery.load(): removing the scripts
+						// to avoid any 'Permission Denied' errors in IE
+						var $d = $("<div>").append(data.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ""));				
+					}
+					$ac.append($ajax_init($d.find('#content').children())).slideDown();
+				}, error = function(o){
+					var $box = $ac.find('.box.active:first');
+					$box.addClass('error pointer').removeClass('progress-bar-striped active')
+						.find('p:first').text('载入错误（'+o.statusText+', '+o.status+'）');
+					$box.click(function(){$(this).remove();return false;});
+				};
+			$.get(this.href)
+				.done(done)
+				.error(error);
+			return false;
+		});
+	}
+	
 
 	// Autosave Revert
 	if(typeof localStorage !== 'undefined'){

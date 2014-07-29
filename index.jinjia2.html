@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <title>@金中_Nest</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="/static/img/favicon.ico" />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <link rel="stylesheet" href="/static/css/style.css" type="text/css" />
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="/static/js/html5shiv.min.js"></script>
+    <script src="/static/js/respond.min.js"></script>
+    <![endif]-->
+    <meta name="robots" content="index, follow" />
+
+  </head>
+  <body>
+    <header id="sm-brand">
+      <h1>@金中_Nest</h1>
+      <div class="info">
+        <a href="#left" class="btn">关于</a>
+      </div>
+    </header>
+    <div id="wrapper" class="container">
+      <section id="right">
+        <div class="box-flipper-outer on" id="new-weibo-outer">
+          <div class="boxes box-flipper">
+            <div id="new-weibo-cover" class="box box-flipper-fronter center" role="button" tabindex="0">
+              <p id="new-weibo-hint">发表新树洞</p>
+              <p id="new-weibo-progress" class="hide">正在发布</p>
+            </div>
+            <div id="new-weibo-content" class="box box-flipper-backer">
+              <form id="new-weibo-form" method="POST" action="/status" enctype="multipart/form-data">
+                <div class="box-content-e">
+                  <textarea name="text" id="status" rows="4" placeholder="想说什么？请不要发布无意义内容、骂人。" tabindex="1" required></textarea>
+                  <input type="file" name="pic" id="pic" class="hide" accept="image/*" tabindex="-1" />
+                </div>
+                <div class="box-upper">
+                  <div class="left">
+                    <button type="button" class="btn" id="new-weibo-close" tabindex="6" title="收起树洞发布框 (Esc)">收起</button>
+                    <button type="reset" class="btn" id="new-weibo-reset" tabindex="5" title="清空发布框">清空</button>
+                    <button type="button" class="btn" id="new-weibo-upload-btn" tabindex="3" title="上传图片文件">图片</button>
+                  </div>
+                  <div class="right">
+                    <span id="new-weibo-counter">135</span>
+                    <button type="submit" class="btn" id="new-weibo-submit" tabindex="2" title="发送树洞 (Ctrl+Enter)">发送</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="boxes" id="content">
+          <!-- Weibo Statuses -->
+          {% for wb in myWeibo %}
+            {% set t = wb['created_at'] %} 
+            {% set t = t[t.find(' '):t.rfind('+')] %}
+            {% set idstr = wb['idstr'] %}
+            {% set mid = wb['mid'] %}
+            {% set cmts = wb['comments_count'] %}
+            {% set reps = wb['reposts_count'] %}
+          <div class="box" id="{{idstr}}">
+            <div class="box-content-e">
+              <p>{{ wb['text'] }}</p>
+            </div>
+            <div class="box-upper">
+              <div class="left time"><p><time title="">{{ t }}</time> #<span class="source"></span> <a href="http://weibo.com/3173227132/{{mid}}" class="btn morelink" title="返回微博看图、点赞" target="_blank">更多</a></p></div>
+              <div class="right">
+                <p>
+                  <a href="http://weibo.com/3173227132/{{mid}}?type=repost" class="btn repost">转发({{ reps }})</a><a href="http://weibo.com/3173227132/{{mid}}?type=comment" class="btn comment">评论({{ cmts }})</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <a class="box" href="http://weibo.com/gimdongtreehole" title="微博 @金中_Nest">
+          <div class="box-content center">更多树洞内容，请移步微博</div>
+        </a>
+      </section>
+      <section id="left">
+        <div class="container">
+          <div class="blank-leftupper mobile-hide"></div>
+          <div id="methods">
+            <p>微信号 <a href="weixin.html" class="ajax" title="公众服务号 Gim Dong">st_jinzhong</a></p>
+          </div>
+          <div class="blank"></div>
+          <div id="credits">
+            <p><a href="about.html" class="ajax">关于本站</a></p>
+          </div>
+        </div>
+      </section>
+      <div class="clear"></div>
+      <div id="inline-form" class="clear inline-form hide">
+        <form action="/cmrp" id="reply-weibo-form" method="POST">
+          <input type="text" name="text" id="reply" placeholder="想说什么？不可以 @ 别人。" required tabindex="11" />
+          <p class="right muted">实名<span class="typetext">评论</span>请<a href="#" tabindex="13" class="backlink" target="_blank">回微博</a>撰写 <button type="submit" class="btn" tabindex="12" id="inline-form-submit">匿名评论</button><input type="hidden" name="name" id="inline-form-type" value="comment" /><input type="hidden" name="id" id="inline-form-parent-id" value="" /></p>
+        </form>
+      </div>
+    </div>
+    <script src="/static/js/jquery-1.11.1.min.js"></script>
+    <script src="/static/js/jquery.form.min.js"></script>
+    <script src="/static/js/index.js"></script>
+  </body>
+</html>
