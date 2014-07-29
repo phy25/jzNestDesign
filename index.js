@@ -1,6 +1,6 @@
 /*
 Jinzhong_Nest Web index.js
-By @Phy25 - 2014/07/29
+By @Phy25 - 2014/07/29+1
 Other credits left through the script
 */
 $(function(){
@@ -388,6 +388,7 @@ $(function(){
 		if(typeof operamini !== 'undefined'){
 			return true;
 		}
+		var $t = $(this);
 		e.preventDefault();
 		if(wbGetLength($('#reply').val()) == 0){
 			$('#reply').val('').focus();
@@ -404,6 +405,16 @@ $(function(){
 					.addClass('success pointer')
 					.click(function(){$(this).remove();return false;})
 					.find('p:first').text('发布成功');
+
+				var $p = $t.parents('.box-upper'), type = $p.find('#inline-form-type').val();
+				
+				$p.find('a.btn.'+type).text(function(i, t){
+					var a = t.match(/^(.+)\((\d+)\)$/);
+					console.log(a);
+					if(a == null) return t;
+					if(a[2]) return a[1]+'('+(+a[2]+1)+')';
+				});
+
 				timeouts['inline-callback'] = setTimeout(function(){
 					$('#msg-id-inline-callback').remove();
 				}, 5000);
@@ -424,7 +435,7 @@ $(function(){
 		};
 		var error = function(x, t){
 			if(t == 'other') t = '字数过多，或者微博系统繁忙等';
-			$('#new-weibo-cover').removeClass('progress-bar-striped active');
+			$('#msg-id-inline-callback').removeClass('progress-bar-striped active');
 			$('#inline-form').show();
 			$('#reply').focus();
 			$('#msg-id-inline-callback').addClass('error pointer')
