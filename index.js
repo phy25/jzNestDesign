@@ -487,7 +487,7 @@ $(function(){
 	});
 
 	function $ajax_init($elem){
-		return $('a.ajax', $elem).click(function(e){
+		$('a.ajax', $elem).click(function(e){
 			if(typeof operamini !== 'undefined'){
 				return true;
 			}
@@ -518,6 +518,7 @@ $(function(){
 				.error(error);
 			return false;
 		});
+		return $elem; 
 	}
 	$ajax_init(document);
 	
