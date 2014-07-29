@@ -1,6 +1,6 @@
 /*
 Jinzhong_Nest Web index.js
-By @Phy25 - 2014/07/29+2
+By @Phy25 - 2014/07/29+3
 Other credits left through the script
 */
 $(function(){
@@ -138,7 +138,7 @@ $(function(){
 			return false;
 		}
 	});
-	$('#status').on('keyup keydown paste change', function(event, init){
+	$('#status').on('keyup keydown paste change reset', function(event, init){
 		var l = 136 - wbGetLength(this.value);
 		$('#new-weibo-counter').text(l)[l < 0 ? 'addClass':'removeClass']('warning');
 
@@ -162,7 +162,6 @@ $(function(){
 	};
 	$('#pic').on('change', onPicChange);
 	$('#new-weibo-form').on('reset', function(){
-		$(this).change();
 		setTimeout(onPicChange, 0);
 	});
 	$('#new-weibo-upload-btn').click(function(){
@@ -413,7 +412,6 @@ $(function(){
 				
 				$p.find('a.btn.'+type).text(function(i, t){
 					var a = t.match(/^(.+)\((\d+)\)$/);
-					console.log(a);
 					if(a == null) return t;
 					if(a[2]) return a[1]+'('+(+a[2]+1)+')';
 				});
