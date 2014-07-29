@@ -519,6 +519,7 @@ $(function(){
 			return false;
 		});
 	}
+	$ajax_init(document);
 	
 
 	// Autosave Revert
