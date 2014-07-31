@@ -16,7 +16,7 @@
 
   </head>
   <body>
-    <header id="sm-brand">
+    <header id="sm-brand"><!-- Mobile Header -->
       <h1>@金中_Nest</h1>
       <div class="info">
         <a href="#left" class="btn">关于</a>
@@ -24,7 +24,7 @@
     </header>
     <div id="wrapper" class="container">
       <section id="right">
-        <div class="box-flipper-outer on" id="new-weibo-outer">
+        <div class="box-flipper-outer on" id="new-weibo-outer"><!-- Weibo Publish Box -->
           <div class="boxes box-flipper">
             <div id="new-weibo-cover" class="box box-flipper-fronter center" role="button" tabindex="0">
               <p id="new-weibo-hint">发表新树洞</p>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="box-upper">
                   <div class="left">
-                    <button type="button" class="btn" id="new-weibo-close" tabindex="6" title="收起树洞发布框 (Esc)">收起</button>
+                    <button type="button" class="btn" id="new-weibo-close" tabindex="6" title="收起发布框 (Esc)">收起</button>
                     <button type="reset" class="btn" id="new-weibo-reset" tabindex="5" title="清空发布框">清空</button>
                     <button type="button" class="btn" id="new-weibo-upload-btn" tabindex="3" title="上传图片文件">图片</button>
                   </div>
@@ -52,8 +52,7 @@
           </div>
         </div>
 
-        <div class="boxes" id="content">
-          <!-- Weibo Statuses -->
+        <div class="boxes" id="content"><!-- Weibo Statuses -->
           {% for wb in myWeibo %}
             {% set t = wb['created_at'] %} 
             {% set t = t[t.find(' '):t.rfind('+')] %}
@@ -61,6 +60,7 @@
             {% set mid = wb['mid'] %}
             {% set cmts = wb['comments_count'] %}
             {% set reps = wb['reposts_count'] %}
+            {% set atts = wb['attitudes_count'] %}
           <div class="box" id="{{idstr}}">
             <div class="box-content-e">
               <p>{{ wb['text'] }}</p>
@@ -69,7 +69,7 @@
               <div class="left time"><p><time title="">{{ t }}</time> #<span class="source"></span> <a href="http://weibo.com/3173227132/{{mid}}" class="btn morelink" title="返回微博看图、点赞" target="_blank">更多</a></p></div>
               <div class="right">
                 <p>
-                  <a href="http://weibo.com/3173227132/{{mid}}?type=repost" class="btn repost">转发({{ reps }})</a><a href="http://weibo.com/3173227132/{{mid}}?type=comment" class="btn comment">评论({{ cmts }})</a>
+                  <a href="http://weibo.com/3173227132/{{mid}}?type=like" class="btn like" title="点击回微博实名点赞">赞({{atts}})</a><a href="http://weibo.com/3173227132/{{mid}}?type=repost" class="btn repost">转发({{ reps }})</a><a href="http://weibo.com/3173227132/{{mid}}?type=comment" class="btn comment">评论({{ cmts }})</a>
                 </p>
               </div>
             </div>
@@ -86,23 +86,25 @@
           <div class="blank-leftupper mobile-hide"></div>
           <div id="methods">
             <p>微信号 <a href="weixin.html" class="ajax" title="公众服务号 Gim Dong">st_jinzhong</a></p>
+            <p class="mobile-show">微博 <a href="http://weibo.com/gimdongtreehole">@金中_Nest</a></p>
           </div>
           <div class="blank"></div>
           <div id="credits">
-            <p><a href="about.html" class="ajax">关于本站</a></p>
+            <p><a href="about.html" class="ajax">关于树洞</a></p>
           </div>
         </div>
       </section>
       <div class="clear"></div>
       <div id="inline-form" class="clear inline-form hide">
+        <!-- Reply Form -->
         <form action="/cmrp" id="reply-weibo-form" method="POST">
           <input type="text" name="text" id="reply" placeholder="想说什么？不可以 @ 别人。" required tabindex="11" />
-          <p class="right muted">实名<span class="typetext">评论</span>请<a href="#" tabindex="13" class="backlink" target="_blank">回微博</a>撰写 <button type="submit" class="btn" tabindex="12" id="inline-form-submit">匿名评论</button><input type="hidden" name="name" id="inline-form-type" value="comment" /><input type="hidden" name="id" id="inline-form-parent-id" value="" /></p>
+          <p class="right muted"><a href="#" tabindex="13" class="backlink" target="_blank" title="回微博撰写、提交">实名<span class="typetext">评论</span></a> <button type="submit" class="btn" tabindex="12" id="inline-form-submit">匿名评论</button><input type="hidden" name="name" id="inline-form-type" value="comment" /><input type="hidden" name="id" id="inline-form-parent-id" value="" /></p>
         </form>
       </div>
     </div>
     <script src="/static/js/jquery-1.11.1.min.js"></script>
     <script src="/static/js/jquery.form.min.js"></script>
-    <script src="/static/js/index.js"></script>
+    <script src="/static/js/index.min.js"></script>
   </body>
 </html>
