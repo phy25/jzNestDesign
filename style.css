@@ -238,6 +238,7 @@ abbr{border-bottom: 1px dotted #333;}
 #sm-brand h1{font-size:1.1em;text-align:center;line-height:1.1em;margin:0;padding:0;}
 #sm-brand .info{position:absolute;left:0;top:0;margin: .5em 1em;}
 #sm-brand .btn{border:1px solid #DDD;text-decoration:none;color:#000;font-size:.9em;}
+.mobile-show{display: none;}
 
 #left .ads.box{display:none;}
 .box.qrcode{text-align: center;}
@@ -249,6 +250,7 @@ abbr{border-bottom: 1px dotted #333;}
 	#right{float:none;width:100%;}
 	#sm-brand{display:block;}
 	.mobile-hide{display: none;}
+	.mobile-show{display: block;}
 	#left .ads.box{display:block;}
 }
 @media (max-width: 530px) {
