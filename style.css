@@ -15,6 +15,10 @@ abbr{border-bottom: 1px dotted #333;}
 .blank-leftupper{padding:4em 0;}
 .pointer{cursor: pointer;}
 
+#contact-message{width:100%;resize:vertical;min-height:4em;padding:4px;}
+#contact-email{width: 100%;padding:4px;}
+.contact-small{font-size:.6em;}
+
 #wrapper{max-width:1400px;width:auto;margin:0 auto;position:relative;}
 #right{display:block;float:right;width: 80%;}
 #left{display:block;float:left;width: 20%;}

@@ -103,7 +103,7 @@ $(function(){
 
 	function checkWeiboWordBG(text, type, appendAfter){
 		if(text.indexOf('树洞') != -1 || text.indexOf('洞主') != -1){
-			createMsgCard('树洞问题，不妨在页面左侧直接跟洞主交流哦。', 'weibo-content-hint', 'error', 5000, appendAfter);
+			createMsgCard('树洞问题，不妨在页面左侧直接跟洞主交流哦。你可以继续提交。', 'weibo-content-hint', 'error', 5000, appendAfter);
 		}
 		if(type == 'cr' && /@\S/.test(text)){
 			$('#reply').val(text.replace(/@(\S)/g, '@ $1'));
