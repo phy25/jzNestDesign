@@ -7,6 +7,7 @@ $(function(){
 	var timeouts = {}, fakeajax = true, sd_id = '3173227132';
 	function supportsTransitions() {
 		if(is360Browser()) return false;
+		// 360Browser has a bug in animation, so we fall it back
 
 	    var b = document.body || document.documentElement,
 	        s = b.style,
@@ -100,6 +101,16 @@ $(function(){
 		} 
 	})();
 
+	function checkWeiboWordBG(text, type, appendAfter){
+		if(text.indexOf('树洞') != -1 || text.indexOf('洞主') != -1){
+			createMsgCard('树洞问题，不妨在页面左侧直接跟洞主交流哦。', 'weibo-content-hint', 'error', 5000, appendAfter);
+		}
+		if(type == 'cr' && /@\S/.test(text)){
+			$('#reply').val(text.replace(/@(\S)/g, '@ $1'));
+			createMsgCard('为了避免骚扰，评论 / 转发不能 @ 人，如有需要请实名操作。', 'weibo-content-hint', 'error', 5000, appendAfter);
+		}
+	}
+
 	$('#new-weibo-cover').click(function(){
 		if(!$(this).is('.active')){
 			setTimeout(function(){
@@ -146,6 +157,8 @@ $(function(){
 		if(!init && typeof localStorage !== 'undefined'){
 			localStorage['jzth_status'] = this.value;
 		}
+
+		checkWeiboWordBG(this.value, 'weibo', $('#new-weibo-outer'));
 
 	}).trigger('paste', [true]);
 
@@ -303,14 +316,14 @@ $(function(){
 				}
 				if($('#inline-form').is('.active') && $('#inline-form-type').val() == 'repost'){
 					// 表单打开，且是相同状况
-					if($('#inline-form').parents('.box').attr('id') ==  $(this).parents('.box').attr('id')){
+					if($('#inline-form').closest('.box').attr('id') ==  $(this).closest('.box').attr('id')){
 						// 只在位于当前点击的微博下，关闭表单
 						closeInlineForm();
 						return false;
 					}
 				}
-				var $f = $('#inline-form').appendTo($(this).parents('.box-upper')).show();
-				initInlineForm($f, $(this).parents('.box'), 'repost');
+				var $f = $('#inline-form').appendTo($(this).closest('.box-upper')).show();
+				initInlineForm($f, $(this).closest('.box'), 'repost');
 				return false;
 			});
 			$e.find('a.btn.comment').click(function(){
@@ -320,14 +333,14 @@ $(function(){
 				}
 				if($('#inline-form').is('.active') && $('#inline-form-type').val() == 'comment'){
 					// 表单打开，且是相同状况
-					if($('#inline-form').parents('.box').attr('id') ==  $(this).parents('.box').attr('id')){
+					if($('#inline-form').closest('.box').attr('id') ==  $(this).closest('.box').attr('id')){
 						// 只在位于当前点击的微博下，关闭表单
 						closeInlineForm();
 						return false;
 					}
 				}
-				var $f = $('#inline-form').appendTo($(this).parents('.box-upper')).show();
-				initInlineForm($f, $(this).parents('.box'), 'comment');
+				var $f = $('#inline-form').appendTo($(this).closest('.box-upper')).show();
+				initInlineForm($f, $(this).closest('.box'), 'comment');
 				return false;
 			});
 		}
@@ -390,6 +403,9 @@ $(function(){
 			return false;
 		}
 	});
+	$('#reply').on('keydown change', function(){
+		checkWeiboWordBG(this.value, 'cr', $(this).closest('.box'));
+	});
 	$('#reply-weibo-form').submit(function(e){
 		if(typeof operamini !== 'undefined'){
 			return true;
@@ -401,7 +417,7 @@ $(function(){
 			return false;
 		}
 		if(wbGetLength($('#reply').val()) > 136){
-			createMsgCard('字数过多，请不要做话痨 :)', 'new-weibo-length', 'error', 3000, $(this).parents('.box'));
+			createMsgCard('字数过多，请不要做话痨 :)', 'new-weibo-length', 'error', 3000, $(this).closest('.box'));
 			$('#reply').focus();
 			return false;
 		}
@@ -412,7 +428,7 @@ $(function(){
 					.click(function(){$(this).remove();return false;})
 					.find('p:first').text('发布成功');
 
-				var $p = $t.parents('.box-upper'), type = $p.find('#inline-form-type').val();
+				var $p = $t.closest('.box-upper'), type = $p.find('#inline-form-type').val();
 				
 				$p.find('a.btn.'+type).text(function(i, t){
 					var a = t.match(/^(.+)\((\d+)\)$/);
@@ -452,7 +468,7 @@ $(function(){
 		};
 		// fakeajax
 		$('#msg-id-inline-callback').remove();
-		$(this).parents('.box').after('<div id="msg-id-inline-callback" class="box progress-bar-striped active"><div class="box-content center"><p>正在发布</p></div></div>');
+		$(this).closest('.box').after('<div id="msg-id-inline-callback" class="box progress-bar-striped active"><div class="box-content center"><p>正在发布</p></div></div>');
 		closeInlineForm();
 		clearTimeout(timeouts['inline-callback']);
 		if(!fakeajax){
