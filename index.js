@@ -102,12 +102,25 @@ $(function(){
 	})();
 
 	function checkWeiboWordBG(text, type, appendAfter){
-		if(text.indexOf('树洞') != -1 || text.indexOf('洞主') != -1){
-			createMsgCard('树洞问题，不妨在页面左侧直接跟洞主交流哦。你可以继续提交。', 'weibo-content-hint', 'error', 5000, appendAfter);
+		// 下面代码对执行顺序有依赖
+		if(/@\S/.test(text)){
+			if(type == 'cr'){
+				$('#reply').val(text.replace(/@(\S)/g, '@ $1'));
+				createMsgCard('为了避免骚扰，评论 / 转发不能 @ 人，如有需要请实名操作。你可以继续发布本内容。', 'weibo-content-hint', 'error', 5000, appendAfter);
+			}else if(typeof localStorage !== 'undefined' && localStorage['jzth_mention_hint'] !== 'off'){
+				createMsgCardHTML('@ 完人，请记得打空格，否则是 @ 不到的。 '+(typeof localStorage !== 'undefined'?'<a href="javascript:void(0)" id="msg-id-weibo-mention-btn">不再提醒</a>':''), 'weibo-content-hint', 'error', 0, appendAfter);
+
+				$('#msg-id-weibo-mention-btn').on('click', function(){
+					localStorage['jzth_mention_hint'] = 'off';
+					$('#msg-id-weibo-content-hint').remove();
+				});
+			}
 		}
-		if(type == 'cr' && /@\S/.test(text)){
-			$('#reply').val(text.replace(/@(\S)/g, '@ $1'));
-			createMsgCard('为了避免骚扰，评论 / 转发不能 @ 人，如有需要请实名操作。', 'weibo-content-hint', 'error', 5000, appendAfter);
+		if(/@.+\s/.test(text) && $('#msg-id-weibo-content-hint').length){
+			$('#msg-id-weibo-content-hint').remove();
+		}
+		if(text.indexOf('树洞') != -1 || text.indexOf('洞主') != -1){
+			createMsgCard('树洞问题，不妨在页面左侧直接跟洞主交流哦。你可以继续发布本内容。', 'weibo-content-hint', 'error', 5000, appendAfter);
 		}
 	}
 
@@ -485,6 +498,23 @@ $(function(){
 		
 		return false;
 	});
+
+	$('#contact-form').submit(function(event){
+		event.preventDefault();
+		$(this).ajaxSubmit({
+			dataType: 'json',
+			success: function(){
+				createMsgCard('发送成功', 'contact-success', 'success', 3000, $('#contact-block'));
+			},
+			error: function(x, t){
+				$('#contact-message').focus();
+				createMsgCard('发送失败（'+t+'）', 'contact-failure', 'error', 3000, $('#contact-block'));
+			}
+		});
+
+		return false;
+	});
+
 	function generateWeiboCard(data, $return){
 		// data: {}
 		if(!data.source) data.source = 'Web';
@@ -497,14 +527,38 @@ $(function(){
 			return ret;
 		}
 	}
+
 	function createMsgCard(content, id, type, timeout, appendAfter){
 		if(!type) var type = 'error';
 		if(timeout === undefined) var timeout = 5000;
 		if($('#msg-id-'+id).length){
 			var $e = $('#msg-id-'+id).find('p:first').text(content).end();
 			clearTimeout(timeouts['msg-id-'+id]);
+			if(appendAfter){
+				appendAfter.after($e);
+			}
 		}else{
 			var $e = $('<div id="msg-id-'+id+'" class="box pointer '+type+'"><div class="box-content center"><p>'+$('<div/>').text(content).html()+'</p></div></div>').on('click', function(){$(this).remove();});
+			if(!appendAfter){
+				$e.prependTo('#content');
+			}else{
+				appendAfter.after($e);
+			}
+		}
+		if(timeout !== 0) timeouts['msg-id-'+id] = setTimeout(function(){$e.remove();}, timeout);
+	}
+
+	function createMsgCardHTML(content, id, type, timeout, appendAfter){
+		if(!type) var type = 'error';
+		if(timeout === undefined) var timeout = 5000;
+		if($('#msg-id-'+id).length){
+			var $e = $('#msg-id-'+id).find('p:first').html(content).end();
+			clearTimeout(timeouts['msg-id-'+id]);
+			if(appendAfter){
+				appendAfter.after($e);
+			}
+		}else{
+			var $e = $('<div id="msg-id-'+id+'" class="box pointer '+type+'"><div class="box-content center"><p>'+content+'</p></div></div>').on('click', function(){$(this).remove();});
 			if(!appendAfter){
 				$e.prependTo('#content');
 			}else{
@@ -557,7 +611,7 @@ $(function(){
 
 	// Autosave Revert
 	if(typeof localStorage !== 'undefined'){
-		if(!$('#status').val()) $('#status').val(localStorage['jzth_status']);
+		if(!$('#status').val() && localStorage['jzth_status'] != '') $('#status').val(localStorage['jzth_status']);
 		if(localStorage['jzth_nwopened'] == 'off') $('#new-weibo-close').click();
 	}
 });
