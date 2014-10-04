@@ -1,6 +1,6 @@
 /*
 Jinzhong_Nest Web index.js
-By @Phy25 - 2014/07/31
+By @Phy25 - 2014/10/04
 Other credits left through the script
 */
 $(function(){
