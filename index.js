@@ -611,7 +611,7 @@ $(function(){
 
 	// Autosave Revert
 	if(typeof localStorage !== 'undefined'){
-		if(!$('#status').val() && localStorage['jzth_status'] != '') $('#status').val(localStorage['jzth_status']);
+		if(!$('#status').val() && typeof localStorage['jzth_status'] != 'undefined' && localStorage['jzth_status'] != '') $('#status').val(localStorage['jzth_status']);
 		if(localStorage['jzth_nwopened'] == 'off') $('#new-weibo-close').click();
 	}
 });
