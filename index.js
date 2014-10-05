@@ -1,6 +1,6 @@
 /*
 Jinzhong_Nest Web index.js
-By @Phy25 - 2014/10/04+2
+By @Phy25 - 2014/10/05
 Other credits left through the script
 */
 $(function(){
@@ -358,15 +358,22 @@ $(function(){
 			});
 		}
 		
+		// 后缀匹配
 		var $p = $e.find('.box-content-e p:first');
 		$p.html(function(i, h){
-			var a = h.match(/^(.*)「(.+)」$/), s, t;// s = source, t = text
+			var a = h.match(/^(.*)►(.+)$/), s, t;// s = source, t = text
 			if(a !== null){
-				s = a[2];
-				t = a[1];
+				s = $.trim(a[2]);
+				t = $.trim(a[1]);
 			}else{
-				s = 'Admin';
-				t = h;
+				var b = h.match(/^(.*)「(.+)」$/);// s = source, t = text
+				if(b !== null){
+					s = $.trim(b[2]);
+					t = $.trim(b[1]);
+				}else{
+					s = 'Admin';
+					t = h;
+				}
 			}
 			if(s == 'wx'){
 				s = 'WeChat';
@@ -498,7 +505,8 @@ $(function(){
 		
 		return false;
 	});
-
+	
+	// Contact
 	$('#contact-form').submit(function(event){
 		event.preventDefault();
 		if($('#contact-email').val() == 'jznest@qq.com'){
@@ -520,6 +528,12 @@ $(function(){
 
 		return false;
 	});
+
+	$(window).on('hashchange', function(){
+		if(location.hash == '#contact-block'){
+			$('#contact-message').focus();
+		}
+	}).trigger('hashchange');
 
 	function generateWeiboCard(data, $return){
 		// data: {}
