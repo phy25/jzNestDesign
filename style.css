@@ -215,7 +215,7 @@ abbr{border-bottom: 1px dotted #333;}
 
 #new-weibo-cover{cursor:pointer;}
 #new-weibo-cover p{line-height:2.2em;}
-#new-weibo-cover:focus{box-shadow: none;outline:8px auto #4D90FE;}
+#new-weibo-cover:focus{box-shadow: 0 0 10px rgb(77, 144, 254);outline:none;}
 /*#new-weibo-content{overflow:hidden;}*/
 #new-weibo-cover, #new-weibo-outer{height:2.2em;}
 #new-weibo-content, #new-weibo-outer.on{height:8.9em;}
