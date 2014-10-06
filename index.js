@@ -1,6 +1,6 @@
 /*
 Jinzhong_Nest Web index.js
-By @Phy25 - 2014/10/06
+By @Phy25 - 2014/10/06+1
 Other credits left through the script
 */
 $(function(){
@@ -391,12 +391,15 @@ $(function(){
 			return $.trim(t);
 		});
 
-		// 续上，@ 链接
+		// 续上，@ # 链接
 		$p.html(function(i, h){
-			return h.replace(/@([\u4e00-\u9fa5a-zA-Z0-9_-]{1,30})/, function(match, p1){
-				return '<a href="http://weibo.com/n/'+encodeURIComponent(p1)+'" target="_blank">@'+p1+'</a>';
+			return h.replace(/@([\u4e00-\u9fa5a-zA-Z0-9_-]{1,30})/g, function(m, p1){
+				return '<a href="http://weibo.com/n/'+encodeURIComponent(p1)+'" target="_blank" class="mention">@'+p1+'</a>';
+			}).replace(/#(.+)#/g, function(m, p1){
+				return '<a href="http://huati.weibo.com/k/'+encodeURIComponent(p1)+'" target="_blank" class="tag">#'+p1+'#</a>';
 			});
 		});
+
 	}
 	function closeInlineForm(){
 		$('#inline-form').removeClass('active').slideUp();
@@ -532,6 +535,7 @@ $(function(){
 			dataType: 'json',
 			success: function(){
 				createMsgCard('发送成功', 'contact-success', 'success', 3000, $('#contact-block'));
+				$('#contact-form')[0].reset();
 			},
 			error: function(x, t){
 				$('#contact-message').focus();
