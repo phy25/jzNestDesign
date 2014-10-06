@@ -1,6 +1,6 @@
 /*
 Jinzhong_Nest Web index.js
-By @Phy25 - 2014/10/05
+By @Phy25 - 2014/10/06
 Other credits left through the script
 */
 $(function(){
@@ -103,9 +103,9 @@ $(function(){
 
 	function checkWeiboWordBG(text, type, appendAfter){
 		// 下面代码对执行顺序有依赖
-		if(/@\S/.test(text)){
+		if(/@[\u4e00-\u9fa5a-zA-Z0-9_-]{1,30}/.test(text)){
 			if(type == 'cr'){
-				$('#reply').val(text.replace(/@(\S)/g, '@ $1'));
+				$('#reply').val(text.replace(/@(.)/g, '@ $1'));
 				createMsgCard('为了避免骚扰，评论 / 转发不能 @ 人，如有需要请实名操作。你可以继续发布本内容。', 'weibo-content-hint', 'error', 5000, appendAfter);
 			}else if(typeof localStorage !== 'undefined' && localStorage['jzth_mention_hint'] !== 'off'){
 				createMsgCardHTML('@ 完人，请记得打空格，否则是 @ 不到的。 '+(typeof localStorage !== 'undefined'?'<a href="javascript:void(0)" id="msg-id-weibo-mention-btn">不再提醒</a>':''), 'weibo-content-hint', 'error', 0, appendAfter);
@@ -116,7 +116,7 @@ $(function(){
 				});
 			}
 		}
-		if(/@.+\s/.test(text) && $('#msg-id-weibo-content-hint').length){
+		if(/@.+[^\u4e00-\u9fa5a-zA-Z0-9_-]/.test(text) && $('#msg-id-weibo-content-hint').length){
 			$('#msg-id-weibo-content-hint').remove();
 		}
 		if(text.indexOf('树洞') != -1 || text.indexOf('洞主') != -1){
@@ -383,6 +383,13 @@ $(function(){
 			}
 			$e.find('span.source').text('#'+s);
 			return $.trim(t);
+		});
+
+		// 续上，@ 链接
+		$p.html(function(i, h){
+			return h.replace(/@([\u4e00-\u9fa5a-zA-Z0-9_-]{1,30})/, function(match, p1){
+				return '<a href="http://weibo.com/n/'+encodeURIComponent(p1)+'" target="_blank">@'+p1+'</a>';
+			});
 		});
 	}
 	function closeInlineForm(){
