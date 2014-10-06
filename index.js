@@ -103,24 +103,29 @@ $(function(){
 
 	function checkWeiboWordBG(text, type, appendAfter){
 		// 下面代码对执行顺序有依赖
+		var hinted = false;
 		if(/@[\u4e00-\u9fa5a-zA-Z0-9_-]{1,30}/.test(text)){
 			if(type == 'cr'){
 				$('#reply').val(text.replace(/@(.)/g, '@ $1'));
 				createMsgCard('为了避免骚扰，评论 / 转发不能 @ 人，如有需要请实名操作。你可以继续发布本内容。', 'weibo-content-hint', 'error', 5000, appendAfter);
+				hinted = true;
 			}else if(typeof localStorage !== 'undefined' && localStorage['jzth_mention_hint'] !== 'off'){
-				createMsgCardHTML('@ 完人，请记得打空格，否则是 @ 不到的。 '+(typeof localStorage !== 'undefined'?'<a href="javascript:void(0)" id="msg-id-weibo-mention-btn">不再提醒</a>':''), 'weibo-content-hint', 'error', 0, appendAfter);
+				createMsgCardHTML('@ 完人，请记得打空格，否则是 @ 不到的。 '+(typeof localStorage !== 'undefined'?'<a href="javascript:void(0)" id="msg-id-weibo-mention-btn">不再提醒</a>':''), 'weibo-content-hint', 'error', 8000, appendAfter);
 
 				$('#msg-id-weibo-mention-btn').on('click', function(){
 					localStorage['jzth_mention_hint'] = 'off';
 					$('#msg-id-weibo-content-hint').remove();
 				});
+				hinted = true;
 			}
 		}
-		if(/@.+[^\u4e00-\u9fa5a-zA-Z0-9_-]/.test(text) && $('#msg-id-weibo-content-hint').length){
+
+		if(/@.+[^\u4e00-\u9fa5a-zA-Z0-9_-]/.test(text)){
 			$('#msg-id-weibo-content-hint').remove();
+			hinted = false;
 		}
-		if(text.indexOf('树洞') != -1 || text.indexOf('洞主') != -1){
-			createMsgCard('树洞问题，不妨在页面左侧直接跟洞主交流哦。你可以继续发布本内容。', 'weibo-content-hint', 'error', 5000, appendAfter);
+		if(text.indexOf('树洞') != -1 || text.indexOf('洞主') != -1 || text.indexOf('@ 金中_Nest') != -1 || (text.indexOf('@金中_Nest') != -1 && !hinted)){
+			createMsgCardHTML('树洞问题，不妨<a href="#contact-block">直接跟洞主交流</a>哦。你可以继续发布本内容。', 'weibo-content-hint', 'error', 5000, appendAfter);
 		}
 	}
 
@@ -264,8 +269,7 @@ $(function(){
 				
 				var ma = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 				var date = new Date(), mo = ma[date.getMonth()], da = date.getDate(), hr = date.getHours(), mi = date.getMinutes(), se = date.getSeconds();
-				// if(da<10) da = '0'+da;
-				// 不需要补 0
+				if(da<10) da = '0'+da;
 				if(hr<10) hr = '0'+hr;
 				if(mi<10) mi = '0'+mi;
 				if(se<10) se = '0'+se;
@@ -304,6 +308,8 @@ $(function(){
 		$('#new-weibo-cover').addClass('progress-bar-striped active');
 		$('#new-weibo-close').click();
 		$('#status').blur();
+		$('#msg-id-weibo-content-hint').remove();
+
 		clearTimeout(timeouts['new-weibo-callback']);
 		if(!fakeajax){
 			$(this).ajaxSubmit({data:{'ajax': true}, dataType: 'text', success: success, error: error});
