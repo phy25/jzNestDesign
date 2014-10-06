@@ -1,6 +1,6 @@
 /*
 Jinzhong_Nest Web index.js
-By @Phy25 - 2014/10/06+2
+By @Phy25 - 2014/10/06+3
 Other credits left through the script
 */
 $(function(){
@@ -525,8 +525,8 @@ $(function(){
 	// Contact
 	$('#contact-form').submit(function(event){
 		event.preventDefault();
-		if($('#contact-email').val() == 'jznest@qq.com'){
-			createMsgCard('感觉自己萌萌哒？请换个 E-mail 地址。', 'contact-failure', 'error', 3000, $('#contact-block'));
+		if($('#contact-email').val().toLowerCase() == 'jznest@qq.com'){
+			createMsgCard('感觉自己萌萌哒？请换个 E-mail 地址。', 'contact-failure', 'error', 5000, $('#contact-form'));
 			$('#contact-email').focus();
 			return false;
 		}
