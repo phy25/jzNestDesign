@@ -227,6 +227,11 @@ abbr{border-bottom: 1px dotted #333;}
 	padding: 0;
 }
 
+#contact-block .box-content, #left .box-content{
+	font-size: 0.9em;
+	margin: 0.5em 1em;
+}
+
 #reply{
 	font-size: 1.2em;
 	resize: none;

@@ -1,6 +1,6 @@
 /*
 Jinzhong_Nest Web index.js
-By @Phy25 - 2014/10/06+1
+By @Phy25 - 2014/10/06+2
 Other credits left through the script
 */
 $(function(){
@@ -395,9 +395,9 @@ $(function(){
 		$p.html(function(i, h){
 			return h.replace(/@([\u4e00-\u9fa5a-zA-Z0-9_-]{1,30})/g, function(m, p1){
 				return '<a href="http://weibo.com/n/'+encodeURIComponent(p1)+'" target="_blank" class="mention">@'+p1+'</a>';
-			}).replace(/#(.+)#/g, function(m, p1){
+			})/*.replace(/#(.+)#/g, function(m, p1){
 				return '<a href="http://huati.weibo.com/k/'+encodeURIComponent(p1)+'" target="_blank" class="tag">#'+p1+'#</a>';
-			});
+			})*/;
 		});
 
 	}
@@ -530,18 +530,29 @@ $(function(){
 			$('#contact-email').focus();
 			return false;
 		}
+		if($('#contact-message').val() == ''){
+			$('#contact-message').focus();
+			return false;
+		}
 
-		$(this).ajaxSubmit({
-			dataType: 'json',
-			success: function(){
-				createMsgCard('发送成功', 'contact-success', 'success', 3000, $('#contact-block'));
+		var success = function(){
+				createMsgCard('发送成功', 'contact-success', 'success', 3000, $('#contact-form'));
 				$('#contact-form')[0].reset();
 			},
-			error: function(x, t){
+			error = function(x, t){
 				$('#contact-message').focus();
-				createMsgCard('发送失败（'+t+'）', 'contact-failure', 'error', 3000, $('#contact-block'));
-			}
-		});
+				createMsgCard('发送失败（'+t+'）', 'contact-failure', 'error', 5000, $('#contact-form'));
+			};
+
+		if(fakeajax){
+			success();
+		}else{
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				success: success,
+				error: error
+			});
+		}
 
 		return false;
 	});
