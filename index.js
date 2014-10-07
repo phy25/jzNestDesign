@@ -1,6 +1,6 @@
 /*
 Jinzhong_Nest Web index.js
-By @Phy25 - 2014/10/06+3
+By @Phy25 - 2014/10/07
 Other credits left through the script
 */
 $(function(){
@@ -566,7 +566,7 @@ $(function(){
 	function generateWeiboCard(data, $return){
 		// data: {}
 		if(!data.source) data.source = 'Web';
-		var ret = '<div class="box"'+(data.id?(' id="'+data.id+'"'):'')+'><div class="box-content-e"><p>'+$('<div/>').text(data.content).html()+'</p></div><div class="box-upper"><div class="left time"><p><time>'+data.createdAt+'</time> <span class="source">#'+data.source+'</span> <a href="'+data.link+'" target="_blank" class="btn morelink" title="返回微博看图、点赞">更多</a></p></div><div class="right"><p><a href="'+data.link+'?type=repost" class="btn repost">转发('+data.repCount+')</a><a href="'+data.link+'?type=comment" class="btn comment">评论('+data.cmtCount+')</a></p></div></div></div>';
+		var ret = '<div class="box"'+(data.id?(' id="'+data.id+'"'):'')+'><div class="box-content-e"><p>'+$('<div/>').text(data.content).html()+'</p></div><div class="box-upper"><div class="left time"><p><time>'+data.createdAt+'</time> <span class="source">#'+data.source+'</span> <a href="'+data.link+'" target="_blank" class="btn morelink" title="返回微博看图">详细</a></p></div><div class="right"><p><a href="'+data.link+'?type=repost" class="btn repost">转发('+data.repCount+')</a><a href="'+data.link+'?type=comment" class="btn comment">评论('+data.cmtCount+')</a></p></div></div></div>';
 		if($return){
 			var $e = $(ret);
 			bindWeiboCard($e);
