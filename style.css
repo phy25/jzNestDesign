@@ -1,6 +1,6 @@
 /*
 Jinzhong_Nest Web style.css
-By @Phy25 - 2014/10/06+2
+By @Phy25 - 2014/10/10
 Other credits left through the script
 */
 body{font:18px Arial,Helvetica,sans-serif;color:#000;margin:0;padding-bottom:1em;background:repeat fixed url(tileable_wood_texture.jpg);}
@@ -52,6 +52,10 @@ abbr{border-bottom: 1px dotted #333;}
 .box-content-e{
 	margin:.8em 1em 0.4em;
 	padding:0;
+}
+.box-content-e img{
+	max-width: 100%;
+	width: auto;
 }
 .box-upper{
 	margin:0;
@@ -253,7 +257,7 @@ abbr{border-bottom: 1px dotted #333;}
 #sm-brand{display:none;margin:0;padding:.5em 0;border-bottom:1px solid #DDD;background:#EEE;position:relative;}
 #sm-brand h1{font-size:1.1em;text-align:center;line-height:1.1em;margin:0;padding:0;}
 #sm-brand .info{position:absolute;left:0;top:0;margin: .5em 1em;}
-#sm-brand .btn{border:1px solid #DDD;text-decoration:none;color:#000;font-size:.9em;}
+#sm-brand .btn{border:1px solid #DDD;text-decoration:none;color:#000;font-size:.9em;padding: 4px;}
 .mobile-show{display: none;}
 
 #left .ads.box{display:none;}
