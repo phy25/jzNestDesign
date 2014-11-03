@@ -200,8 +200,7 @@ $(function(){
 		}, 0);
 	});
 	$('#new-weibo-upload-btn').click(function(){
-		$('#pic').click();
-		return false;
+		return $('#pic').click();
 	});
 
 	$('#new-weibo-close').keyup(function(e){
