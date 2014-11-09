@@ -89,82 +89,21 @@ abbr{border-bottom: 1px dotted #333;}
 }
 #new-weibo-upload-btn.selected{color: red;text-decoration: underline;}
 
-.box-flipper-outer{
-	-webkit-perspective: 1000;
-	-moz-perspective: 1000;
-	-ms-perspective: 1000;
-	perspective: 1000;
-
-	padding-bottom: 1em;
-
-	-ms-transform: perspective(1000px);
-	-moz-transform: perspective(1000px);
-
-	-webkit-transition: 0.3s height;
-	-moz-transition: 0.3s height;
-	-ms-transition: 0.3s height;
-	-o-transition: 0.3s height;
-	transition: 0.3s height;
-}
 .box-flipper{
 	position: relative;
 }
 
-.box-flipper .box{
-	-webkit-backface-visibility: hidden;
-	-moz-backface-visibility: hidden;
-	-ms-backface-visibility: hidden;
-	backface-visibility: hidden;
-
-	-webkit-transition: 0.6s -webkit-transform;
-	-webkit-transform-style: preserve-3d;
-
-	-moz-transition: 0.6s -moz-transform;
-	-moz-transform-style: preserve-3d;
-
-	-o-transition: 0.6s -o-transform;
-	-o-transform-style: preserve-3d;
-
-	-ms-transition: 0.6s -ms-transform;
-	-ms-transform-style: preserve-3d;
-
-	transition: 0.6s transform;
-	transform-style: preserve-3d;
-
-	position: absolute;
-	top: 0;
-	left: 0;
-
-	-webkit-transform-origin: 0 0;
-	-moz-transform-origin: 0 0;
-	-ms-transform-origin: 0 0;
-	-o-transform-origin: 0 0;
-	transform-origin: 0 0;
-}
 .box-flipper-fronter{
 	z-index: 2;
-	-webkit-transform: rotateX(0deg);
-	-ms-transform: rotateX(0deg);
 }
 .box-flipper-backer{
-	-webkit-transform: rotateX(-180deg);
-	-moz-transform: rotateX(-180deg);
-	-o-transform: rotateX(-180deg);
-	-ms-transform: rotateX(-180deg);
-	transform: rotateX(-180deg);
+	display: none;
 }
 .box-flipper-outer.on .box-flipper-backer{
-	-webkit-transform: rotateX(0deg);
-	-moz-transform: rotateX(0deg);
-	-o-transform: rotateX(0deg);
-	-ms-transform: rotateX(0deg);
-	transform: rotateX(0deg);
+	display: block;
 }
 .box-flipper-outer.on .box-flipper-fronter{
-	-webkit-transform: rotateX(180deg);
-	-moz-transform: rotateX(180deg);
-	-o-transform: rotateX(180deg);
-	transform: rotateX(180deg);
+	display: none;
 }
 
 /* Thanks to Bootstrap */
@@ -225,9 +164,7 @@ abbr{border-bottom: 1px dotted #333;}
 #new-weibo-cover{cursor:pointer;}
 #new-weibo-cover p{line-height:2.2em;}
 #new-weibo-cover:focus{box-shadow: 0 0 10px rgb(77, 144, 254);outline:none;}
-/*#new-weibo-content{overflow:hidden;}*/
-#new-weibo-cover, #new-weibo-outer{height:2.2em;}
-#new-weibo-content, #new-weibo-outer.on{height:8.9em;}
+
 
 #status{resize:none;width:100%;height:6em;line-height:1.5em;font-size:1em;padding:0;background:transparent;outline:none;border:none;overflow:auto;}
 

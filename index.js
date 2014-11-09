@@ -306,6 +306,9 @@ $(function(){
 		$('#new-weibo-progress').text('正在发布');
 		$('#new-weibo-cover').addClass('progress-bar-striped active');
 		$('#new-weibo-close').click();
+		if(typeof localStorage !== 'undefined'){
+			localStorage['jzth_nwopened'] = 'on';
+		}
 		$('#status').blur();
 		$('#msg-id-weibo-content-hint').remove();
 
@@ -396,7 +399,10 @@ $(function(){
 				return '<a href="http://weibo.com/n/'+encodeURIComponent(p1)+'" target="_blank" class="mention">@'+p1+'</a>';
 			})/*.replace(/#(.+)#/g, function(m, p1){
 				return '<a href="http://huati.weibo.com/k/'+encodeURIComponent(p1)+'" target="_blank" class="tag">#'+p1+'#</a>';
-			})*/;
+			})*/
+			.replace(/https?\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?/g, function(m, p1){
+				return '<a href="'+m+'" target="_blank" class="url">'+m+'</a>';
+			});
 		});
 
 	}
