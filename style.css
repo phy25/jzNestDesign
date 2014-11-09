@@ -212,6 +212,11 @@ abbr{border-bottom: 1px dotted #333;}
 	#left .ads.box{display:block;}
 }
 @media (max-width: 530px) {
+	body{font-size:15px;}
+	#sm-brand .info{margin: .5em .3em;}
+	.container{padding:0 .5em;}
+}
+@media (max-width: 320px) {
 	body{font-size:14px;}
 	#sm-brand .info{margin: .5em .3em;}
 	.container{padding:0 .5em;}
