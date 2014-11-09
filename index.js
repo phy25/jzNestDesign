@@ -5,7 +5,7 @@ Other credits left through the script
 */
 $(function(){
 	var timeouts = {}, fakeajax = true, sd_id = '3173227132';
-	function supportsTransitions() {
+	/*function supportsTransitions() {
 		if(is360Browser()) return false;
 		// 360Browser has a bug in animation, so we fall it back
 
@@ -24,7 +24,7 @@ $(function(){
 	    }
 
 	    return false;
-	}
+	}*/
 	// Thanks to http://festatic.aliapp.com/js/jquery.ua/1.3/jquery.ua.js
 	function is360Browser(){
 		var _track = 'track' in document.createElement('track'),
@@ -186,21 +186,53 @@ $(function(){
 			$('#new-weibo-upload-btn')
 				.addClass('selected')
 				.attr('title', '已选取图片文件 ' + filename);
+
+			// Thanks to http://qianduanblog.com/post/js-learning-9-read-local-image.html 
+			var ie6=(!!window.ActiveXObject&&!window.XMLHttpRequest)?true:false;
+			var file = $('#pic')[0], div = $('#new-weibo-image-prv').show()[0];
+			var wh = 'max-width:120px;max-height:120px;display:block;';
+			if (file.files && file.files[0]){
+				var reader = new FileReader();
+				reader.readAsDataURL(file.files[0]);
+				console.log(reader);
+				reader.onload = function(evt){
+					div.innerHTML='<img src="'+reader.result+'" style="'+wh+'" alt="上传图片预览 '+filename+'" title="上传图片预览 '+filename+'" />';
+				}
+			}else{
+				if(ie6){
+					div.innerHTML = '<img src="'+file.value+'" style="'+wh+'width:120px;" alt="上传图片预览 '+filename+'" title="上传图片预览 '+filename+'" />';
+				}else{
+					var filter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=image);';
+					var id = "__iefilterimg"+new Date().getTime()+"__";
+					var sFilter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+					file.select();
+					var src = document.selection.createRange().text;
+					div.innerHTML = '<div id="'+id+'" style="'+filter+'" title="上传图片预览 '+filename+'" />';
+					var img = document.getElementById(id);
+					img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+					var divh = "<div style='" +wh+sFilter+src+'"'+"'></div>";
+					div.innerHTML = divh;
+				}
+			}
+			$('#new-weibo-upload').hide();
 		}else{
 			$('#new-weibo-upload-btn')
 				.removeClass('selected')
 				.attr('title', '上传图片文件');
 		}
 	};
-	$('#pic').on('change', onPicChange);
+	$('#pic').on('change', onPicChange).trigger('change');
+	$('#new-weibo-upload').hide();
 	$('#new-weibo-form').on('reset', function(){
+		$('#new-weibo-image-prv').html('...').hide();
 		setTimeout(function(){
 			onPicChange();
 			$('#status').trigger('change');
 		}, 0);
 	});
 	$('#new-weibo-upload-btn').click(function(){
-		return $('#pic').click();
+		$('#new-weibo-upload').show();
+		$('#pic').click();
 	});
 
 	$('#new-weibo-close').keyup(function(e){
@@ -218,21 +250,6 @@ $(function(){
 			return false;
 		}
 	});
-	if(!supportsTransitions()){
-		// createMsgCard('已进入非 3D 模式。', 'non-3d', 'success', 0);
-		$('#new-weibo-cover').hide();
-		$('#new-weibo-cover').click(function(){
-			if(!$(this).is('.active')){
-				$('#new-weibo-cover').hide();
-				$('#new-weibo-content').show();
-				$('#status').focus();
-			}
-		});
-		$('#new-weibo-close').click(function(){
-			$('#new-weibo-content').hide();
-			$('#new-weibo-cover').show();
-		});
-	}
 
 	$('#new-weibo-form').submit(function(e){
 		if(typeof operamini !== 'undefined'){

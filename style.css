@@ -87,7 +87,8 @@ abbr{border-bottom: 1px dotted #333;}
 #new-weibo-counter.warning{
 	color: red;
 }
-#new-weibo-upload-btn.selected{color: red;text-decoration: underline;}
+#new-weibo-upload-btn.selected{color: #336699;font-weight: bold;}
+#new-weibo-image-prv{font-size:.8em;}
 
 .box-flipper{
 	position: relative;
