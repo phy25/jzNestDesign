@@ -19,7 +19,8 @@
               <form id="new-weibo-form" method="POST" action="/status" enctype="multipart/form-data">
                 <div class="box-content-e">
                   <textarea name="text" id="status" rows="4" placeholder="想说什么？请不要发布无意义内容、骂人。" tabindex="1" required></textarea>
-                  <input type="file" name="pic" id="pic" class="hide" accept="image/*" tabindex="-1" />
+                  <div id="new-weibo-upload"><input type="file" name="pic" id="pic" accept="image/*" /></div>
+                  <div id="new-weibo-image-prv" class="hide">...</div>
                 </div>
                 <div class="box-upper">
                   <div class="left">
