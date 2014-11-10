@@ -425,11 +425,27 @@ $(function(){
 			;
 		});
 
-		$e.find('a.wbimg-zoom').attr('title', '点击放大').click(function(){
-			$(this).wrap('<div class="wbimg-zoomdiv" />');
-			$(this).before('<small><a href="#">返回</a> <a href="#">原图</a></small>');
+		var zoomIn = function(){
+			var $p = $(this).wrap('<div class="wbimg-zoomdiv" />');
+			var $s = $('<p class="small"></p>'), $t = $(this);
+
+			$('<a href="javascript:void(0)">返回</a>').click(function(){$(this).closest('.wbimg-zoomdiv').find('img').click();return false;}).appendTo($s);
+			$('<a href="#" target="_blank">原图</a>').attr('href', $t.data('large-img')).appendTo($s);
+
+			$t.before($s)
+				.off('click').on('click', zoomOut);
+
+			$t.find('img').data('small-img', $t.find('img').attr('src')).attr('src', $t.attr('href')).attr('title', '点击返回').addClass('middle');
+
 			return false;
-		});
+		}, zoomOut = function(){
+			var $p = $(this).closest('.wbimg-zoomdiv'), $t = $(this).remove().on('click.zoomin', zoomIn);
+			$t.find('img').attr('src', $t.find('img').data('small-img')).attr('title', '点击放大');
+
+			$p.replaceWith($t);
+			return false;
+		};
+		$e.find('a.wbimg-zoom').attr('title', '点击放大').on('click.zoomin', zoomIn);
 	}
 	function closeInlineForm(){
 		$('#inline-form').removeClass('active').slideUp();

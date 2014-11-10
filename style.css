@@ -19,6 +19,7 @@ abbr{border-bottom: 1px dotted #333;}
 .blank{padding:.5em 0;}
 .blank-leftupper{padding:4em 0;}
 .pointer{cursor: pointer;}
+.small{font-size: .8em;}
 
 #contact-block{position:absolute;bottom: 2em;width: 17%;height: 10em;}
 
@@ -58,7 +59,7 @@ abbr{border-bottom: 1px dotted #333;}
 	padding: 0.3em 0 0.3em 1em;
 	border-left: 0.5em solid #EEE;
 }
-.box-content-e blockquote small.right{
+.box-content-e blockquote small.upper{
 	text-align: right;
 	display: block;
 	padding: 0.3em 0;
