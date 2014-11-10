@@ -439,11 +439,12 @@ $(function(){
 			$t.before($s)
 				.off('click').on('click', zoomOut);
 
-			$t.find('img').data('small-img', $t.find('img').attr('src')).attr('src', $t.attr('href')).attr('title', '点击返回').addClass('middle');
+			$t.find('img:first').data('small-img', $t.find('img').attr('src'))
+				.attr('src', $t.attr('href')).attr('title', '点击返回').addClass('middle');
 
 			return false;
 		}, zoomOut = function(){
-			var $p = $(this).closest('.wbimg-zoomdiv'), $t = $(this).remove().on('click.zoomin', zoomIn);
+			var $p = $(this).closest('.wbimg-zoomdiv'), $t = $(this).detach().off('click').on('click.zoomin', zoomIn);
 			$t.find('img').attr('src', $t.find('img').data('small-img')).attr('title', '点击放大');
 
 			$p.replaceWith($t);
