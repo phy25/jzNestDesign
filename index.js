@@ -356,14 +356,16 @@ $(function(){
 				}
 				if($('#inline-form').is('.active') && $('#inline-form-type').val() == 'repost'){
 					// 表单打开，且是相同状况
-					if($('#inline-form').closest('.box').attr('id') ==  $(this).closest('.box').attr('id')){
+					var $c = $(this).closest('.box, blockquote'),
+						id = $c.attr('id') || $c.data('id');
+					if($('#inline-form-parent-id').val() == id){
 						// 只在位于当前点击的微博下，关闭表单
 						closeInlineForm();
 						return false;
 					}
 				}
-				var $f = $('#inline-form').appendTo($(this).closest('.box-upper')).show();
-				initInlineForm($f, $(this).closest('.box'), 'repost');
+				var $f = $('#inline-form').appendTo($(this).closest('.box').find('.box-upper')).show();
+				initInlineForm($f, $(this).closest('.box, blockquote'), 'repost');
 				return false;
 			});
 			$e.find('a.btn.comment').click(function(){
@@ -373,14 +375,16 @@ $(function(){
 				}
 				if($('#inline-form').is('.active') && $('#inline-form-type').val() == 'comment'){
 					// 表单打开，且是相同状况
-					if($('#inline-form').closest('.box').attr('id') ==  $(this).closest('.box').attr('id')){
+					var $c = $(this).closest('.box, blockquote'),
+						id = $c.attr('id') || $c.data('id');
+					if($('#inline-form-parent-id').val() == id){
 						// 只在位于当前点击的微博下，关闭表单
 						closeInlineForm();
 						return false;
 					}
 				}
-				var $f = $('#inline-form').appendTo($(this).closest('.box-upper')).show();
-				initInlineForm($f, $(this).closest('.box'), 'comment');
+				var $f = $('#inline-form').appendTo($(this).closest('.box').find('.box-upper')).show();
+				initInlineForm($f, $(this).closest('.box, blockquote'), 'comment');
 				return false;
 			});
 		}
@@ -454,7 +458,7 @@ $(function(){
 	function initInlineForm($e, id, type){
 		if(typeof id == 'object'){
 			$p = id;
-			id = $p.attr('id');
+			id = $p.attr('id') || $p.data('id');
 		}else{
 			$p = false;
 		}
@@ -469,7 +473,7 @@ $(function(){
 			$e.find('span.typetext').text('转发');
 			$e.find('#inline-form-submit').text('匿名转发');
 		}
-		if($p) $e.find('a.backlink').attr('href', $p.find('a.morelink').attr('href')+'?type='+type);
+		if($p) $e.find('a.backlink').attr('href', $p.find('a.morelink:last').attr('href')+'?type='+type);
 
 		$('#reply').focus();
 	}
