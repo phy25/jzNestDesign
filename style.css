@@ -53,19 +53,31 @@ abbr{border-bottom: 1px dotted #333;}
 	margin:.8em 1em 0.4em;
 	padding:0;
 }
-.box-content-e img{
-	max-width: 100%;
-	width: auto;
+.box-content-e blockquote{
+	margin: 0.5em 0;
+	padding: 0.3em 0 0.3em 1em;
+	border-left: 0.5em solid #EEE;
+}
+.box-content-e blockquote small.right{
+	text-align: right;
+	display: block;
+	padding: 0.3em 0;
+	clear: both;
+}
+.box-content-e .wbimg{
+	margin: .5em 0 0 0;
+	display: block;
 }
 .box-upper{
 	margin:0;
 	border-top: 1px solid #EEE;
+	clear: both;
 }
-.box-upper p{line-height:2em;}
+.box-upper p{line-height:1.6em;margin: 0;padding: 0;}
 .box-upper .btn{
 	border: none;
 	background: transparent;
-	padding: .4em 1em;
+	padding: .6em 1em;
 	margin:0;
 	color: #000;
 	text-decoration: none;
@@ -79,7 +91,7 @@ abbr{border-bottom: 1px dotted #333;}
 	text-decoration: none;
 	outline:none;
 	border: none;
-	padding: .4em 1em;
+	padding: .6em 1em;
 	margin: 0;
 }
 .box-upper .time{margin-left: .8em;}

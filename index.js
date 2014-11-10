@@ -26,6 +26,7 @@ $(function(){
 	    return false;
 	}*/
 	// Thanks to http://festatic.aliapp.com/js/jquery.ua/1.3/jquery.ua.js
+	/*
 	function is360Browser(){
 		var _track = 'track' in document.createElement('track'),
 			_style = 'scoped' in document.createElement('style'),
@@ -51,6 +52,7 @@ $(function(){
 		}
 		return false;
 	}
+	*/
 	var wbGetLength = (function(){ 
 		var trim = function(h) { 
 		try { 
@@ -110,7 +112,7 @@ $(function(){
 				createMsgCard('为了避免骚扰，评论 / 转发不能 @ 人，如有需要请实名操作。你可以继续发布本内容。', 'weibo-content-hint', 'error', 5000, appendAfter);
 				hinted = true;
 			}else if(typeof localStorage !== 'undefined' && localStorage['jzth_mention_hint'] !== 'off'){
-				createMsgCardHTML('@ 完人，请记得打空格，否则是 @ 不到的。 '+(typeof localStorage !== 'undefined'?'<a href="javascript:void(0)" id="msg-id-weibo-mention-btn">不再提醒</a>':''), 'weibo-content-hint', 'error', 8000, appendAfter);
+				createMsgCardHTML('在 @ 后输入昵称后，请记得打空格，否则 @ 不到人。 '+(typeof localStorage !== 'undefined'?'<a href="javascript:void(0)" id="msg-id-weibo-mention-btn">不再提醒</a>':''), 'weibo-content-hint', 'error', 8000, appendAfter);
 
 				$('#msg-id-weibo-mention-btn').on('click', function(){
 					localStorage['jzth_mention_hint'] = 'off';
@@ -189,7 +191,7 @@ $(function(){
 
 			// Thanks to http://qianduanblog.com/post/js-learning-9-read-local-image.html 
 			var ie6=(!!window.ActiveXObject&&!window.XMLHttpRequest)?true:false;
-			var file = $('#pic')[0], div = $('#new-weibo-image-prv').show()[0];
+			var file = $('#pic')[0], div = $('#new-weibo-image-prv').text('...').show()[0];
 			var wh = 'max-width:120px;max-height:120px;display:block;';
 			if (file.files && file.files[0]){
 				var reader = new FileReader();
@@ -224,7 +226,7 @@ $(function(){
 	$('#pic').on('change', onPicChange).trigger('change');
 	$('#new-weibo-upload').hide();
 	$('#new-weibo-form').on('reset', function(){
-		$('#new-weibo-image-prv').html('...').hide();
+		$('#new-weibo-image-prv').empty();
 		setTimeout(function(){
 			onPicChange();
 			$('#status').trigger('change');
@@ -384,8 +386,8 @@ $(function(){
 		}
 		
 		// 后缀匹配
-		var $p = $e.find('.box-content-e p:first');
-		$p.html(function(i, h){
+		var $p = $e.find('.box-content-e p');
+		$p.eq(0).html(function(i, h){
 			var a = h.match(/^(.*)►(.+)$/), s, t;// s = source, t = text
 			if(a !== null){
 				s = $.trim(a[2]);
@@ -412,16 +414,22 @@ $(function(){
 
 		// 续上，@ # 链接
 		$p.html(function(i, h){
-			return h.replace(/@([\u4e00-\u9fa5a-zA-Z0-9_-]{1,30})/g, function(m, p1){
+			return h.replace(/https?\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?/g, function(m, p1){
+				return '<a href="'+m+'" target="_blank" class="url">'+m+'</a>';
+			})
+			.replace(/@([\u4e00-\u9fa5a-zA-Z0-9_-]{1,30})/g, function(m, p1){
 				return '<a href="http://weibo.com/n/'+encodeURIComponent(p1)+'" target="_blank" class="mention">@'+p1+'</a>';
 			})/*.replace(/#(.+)#/g, function(m, p1){
 				return '<a href="http://huati.weibo.com/k/'+encodeURIComponent(p1)+'" target="_blank" class="tag">#'+p1+'#</a>';
 			})*/
-			.replace(/https?\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?/g, function(m, p1){
-				return '<a href="'+m+'" target="_blank" class="url">'+m+'</a>';
-			});
+			;
 		});
 
+		$e.find('a.wbimg-zoom').attr('title', '点击放大').click(function(){
+			$(this).wrap('<div class="wbimg-zoomdiv" />');
+			$(this).before('<small><a href="#">返回</a> <a href="#">原图</a></small>');
+			return false;
+		});
 	}
 	function closeInlineForm(){
 		$('#inline-form').removeClass('active').slideUp();

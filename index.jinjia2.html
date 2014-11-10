@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block content %}
     <header id="sm-brand"><!-- Mobile Header -->
@@ -20,7 +20,7 @@
                 <div class="box-content-e">
                   <textarea name="text" id="status" rows="4" placeholder="想说什么？请不要发布无意义内容、骂人。" tabindex="1" required></textarea>
                   <div id="new-weibo-upload"><input type="file" name="pic" id="pic" accept="image/*" /></div>
-                  <div id="new-weibo-image-prv" class="hide">...</div>
+                  <div id="new-weibo-image-prv" class="hide"></div>
                 </div>
                 <div class="box-upper">
                   <div class="left">
@@ -89,7 +89,7 @@
         <form action="/email" method="POST" id="contact-form" target="_blank">
           <textarea name="message" id="contact-message" rows="5" placeholder="留言..." required></textarea>
           <div id="contact-block-more">
-            <p class="contact-small"><label for="contact-email">请在下面留下回信的 E-mail。</label></p>
+            <p class="contact-small"><label for="contact-email">请在下面留下您的 E-mail，以便回信。</label></p>
             <input type="email" id="contact-email" name="_replyto" placeholder="E-mail (可不填)" />
             <button type="submit">给洞主发邮件</button>
           </div>
