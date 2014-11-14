@@ -1,6 +1,6 @@
 /*
 Jinzhong_Nest Web index.js
-By @Phy25 - 2014/11/10
+By @Phy25 - 2014/11/14
 Other credits left through the script
 */
 $(function(){
@@ -392,6 +392,7 @@ $(function(){
 		// 后缀匹配
 		var $p = $e.find('.box-content-e p');
 		$p.eq(0).html(function(i, h){
+			h = h.replace(/\r|\n/g, '');
 			var a = h.match(/^(.*)►(.+)$/), s, t;// s = source, t = text
 			if(a !== null){
 				s = $.trim(a[2]);
