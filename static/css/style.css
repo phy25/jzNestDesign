@@ -3,7 +3,7 @@ Jinzhong_Nest Web style.css
 By @Phy25 - 2014/11/10
 Other credits left through the script
 */
-body{font:18px Arial,Helvetica,sans-serif;color:#000;margin:0;padding-bottom:1em;background:repeat fixed url(tileable_wood_texture.jpg);}
+body{font:18px Arial,Helvetica,sans-serif;color:#000;margin:0;background:repeat fixed url(tileable_wood_texture.jpg);}
 img{border:none}
 h1{font-size:1.6em;}
 h2{font-size:1.3em;margin:10px 0}
@@ -27,9 +27,10 @@ abbr{border-bottom: 1px dotted #333;}
 #contact-email{width: 100%;padding:4px;}
 .contact-small{font-size:.6em;}
 
-#wrapper{max-width:1400px;width:auto;margin:0 auto;position:relative;}
+#wrapper{max-width:1400px;width:auto;margin:0 auto;position:relative;padding-bottom:1em;}
 #right{display:block;float:right;width: 80%;}
-#left{display:block;float:left;width: 20%;}
+#left{display:block;float:left;width: 20%;padding: 3em 0 0;position:fixed;}
+#left.unfixed{position:static;}
 .container{padding:0 1em;}
 .left{float:left;}
 .right{float:right;}
@@ -48,6 +49,12 @@ abbr{border-bottom: 1px dotted #333;}
 .box-content{
 	margin:.8em 1em;
 	padding:0;
+}
+.box-content h2 {
+    color: #3366ff;
+}
+.box-content b {
+    color: red;
 }
 .box-content p{line-height:1.5em;margin: .3em 0;}
 .box-content-e{
@@ -210,7 +217,6 @@ abbr{border-bottom: 1px dotted #333;}
 #reply:invalid{box-shadow: none;}
 
 
-#left{padding: 3em 0 0;}
 #sm-brand{display:none;margin:0;padding:.5em 0;border-bottom:1px solid #DDD;background:#EEE;position:relative;}
 #sm-brand h1{font-size:1.1em;text-align:center;line-height:1.1em;margin:0;padding:0;}
 #sm-brand .info{position:absolute;left:0;top:0;margin: .5em 1em;}
@@ -222,7 +228,7 @@ abbr{border-bottom: 1px dotted #333;}
 .box.qrcode img{max-width: 240px;}
 
 @media (max-width: 900px) {
-	#left{float:none;width:100%;}
+	#left{float:none;width:100%;position:static;}
 	#left>.container{padding:0;}
 	#right{float:none;width:100%;}
 	#sm-brand{display:block;}

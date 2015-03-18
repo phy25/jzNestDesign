@@ -1,6 +1,6 @@
 /*
 Jinzhong_Nest Web index.js
-By @Phy25 - 2014/11/14
+By @Phy25 - 2015/3/18
 Other credits left through the script
 To minify, use http://marijnhaverbeke.nl/uglifyjs
 */
