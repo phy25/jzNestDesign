@@ -187,7 +187,7 @@ $(function(){
 	// Random placeholder
 	var rd = Math.floor(placeholders.length*Math.random());
 	if(rd == placeholders.length) rd = placeholders.length-1;
-	$('#status').attr('placeholder', placeholder[rd]);
+	$('#status').attr('placeholder', placeholders[rd]);
 
 	var onPicChange = function(e){
 		var ele = $('#pic')[0], filename = (ele.files && ele.files[0]) ? ele.files[0].name : ele.value;
