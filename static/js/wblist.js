@@ -1,6 +1,6 @@
 /*
 Jinzhong_Nest Web wblist.js
-By @Phy25 - 2014/11/14
+By @Phy25 - 2015/3/18
 Just copy from index.js, including #content.box styling and inline comment
 Other credits left through the script
 */
