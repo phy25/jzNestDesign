@@ -2,9 +2,11 @@
 Jinzhong_Nest Web index.js
 By @Phy25 - 2014/11/14
 Other credits left through the script
+To minify, use http://marijnhaverbeke.nl/uglifyjs
 */
 $(function(){
-	var timeouts = {}, fakeajax = true, sd_id = '3173227132';
+	var timeouts = {}, fakeajax = false, sd_id = '3173227132';
+	var placeholders = ['想说什么？请不要发布无意义内容。', '想说什么？请勿恶意谩骂、刷屏。', '想说什么？不适宜内容可能会被多人“求删”而被自动删除。', '想说什么？也可通过微信公众号 st_jinzhong 使用 Nest。', '想说什么？Nest 需要你的支持，欢迎支付宝打赏~'];
 	/*function supportsTransitions() {
 		if(is360Browser()) return false;
 		// 360Browser has a bug in animation, so we fall it back
@@ -127,7 +129,7 @@ $(function(){
 			hinted = false;
 		}
 		if(text.indexOf('树洞') != -1 || text.indexOf('洞主') != -1 || text.indexOf('@ 金中_Nest') != -1 || (text.indexOf('@金中_Nest') != -1 && !hinted)){
-			createMsgCardHTML('树洞问题，不妨<a href="#contact-block">直接跟洞主交流</a>哦。你可以继续发布本内容。', 'weibo-content-hint', 'error', 5000, appendAfter);
+			createMsgCardHTML('树洞问题，不妨<a href="#contact-block">直接跟洞主邮件交流</a>。你可以继续发布本内容。', 'weibo-content-hint', 'error', 5000, appendAfter);
 		}
 	}
 
@@ -182,6 +184,11 @@ $(function(){
 
 	}).trigger('paste', [true]);
 
+	// Random placeholder
+	var rd = Math.floor(placeholders.length*Math.random());
+	if(rd == placeholders.length) rd = placeholders.length-1;
+	$('#status').attr('placeholder', placeholder[rd]);
+
 	var onPicChange = function(e){
 		var ele = $('#pic')[0], filename = (ele.files && ele.files[0]) ? ele.files[0].name : ele.value;
 		if(filename){
@@ -201,7 +208,7 @@ $(function(){
 					div.innerHTML='<img src="'+reader.result+'" style="'+wh+'" alt="上传图片预览 '+filename+'" title="上传图片预览 '+filename+'" />';
 				}
 			}else{
-				if(ie6){
+				/*if(!ie6){
 					div.innerHTML = '<img src="'+file.value+'" style="'+wh+'width:120px;" alt="上传图片预览 '+filename+'" title="上传图片预览 '+filename+'" />';
 				}else{
 					var filter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=image);';
@@ -214,7 +221,7 @@ $(function(){
 					img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
 					var divh = "<div style='" +wh+sFilter+src+'"'+"'></div>";
 					div.innerHTML = divh;
-				}
+				}*/
 			}
 			$('#new-weibo-upload').hide();
 		}else{
@@ -233,6 +240,9 @@ $(function(){
 		}, 0);
 	});
 	$('#new-weibo-upload-btn').click(function(){
+		if($('#new-weibo-upload-btn').is('.selected') && !confirm("您已经选择了一张图片，树洞不支持发布多张图片。\n\n您要重新选择上传的图片吗？"))
+			return false;
+		
 		$('#new-weibo-upload').show();
 		$('#pic').click();
 	});
@@ -419,7 +429,7 @@ $(function(){
 
 		// 续上，@ # 链接
 		$p.html(function(i, h){
-			return h.replace(/https?\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?/g, function(m, p1){
+			h = h.replace(/https?\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?/g, function(m, p1){
 				return '<a href="'+m+'" target="_blank" class="url">'+m+'</a>';
 			})
 			.replace(/@([\u4e00-\u9fa5a-zA-Z0-9_-]{1,30})/g, function(m, p1){
@@ -428,6 +438,7 @@ $(function(){
 				return '<a href="http://huati.weibo.com/k/'+encodeURIComponent(p1)+'" target="_blank" class="tag">#'+p1+'#</a>';
 			})*/
 			;
+			return emoji ? emoji.replace_emoticons(emoji.replace_colons(h)) : h;
 		});
 
 		var zoomIn = function(){

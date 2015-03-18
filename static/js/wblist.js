@@ -5,7 +5,7 @@ Just copy from index.js, including #content.box styling and inline comment
 Other credits left through the script
 */
 $(function(){
-	var timeouts = {}, fakeajax = true, sd_id = '3173227132';
+	var timeouts = {}, fakeajax = false, sd_id = '3173227132';
 	function bindWeiboCard($e){
 		if($e.attr('id')){
 			$e.find('a.btn.repost').click(function(){
@@ -78,7 +78,7 @@ $(function(){
 
 		// 续上，@ # 链接
 		$p.html(function(i, h){
-			return h.replace(/https?\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?/g, function(m, p1){
+			h = h.replace(/https?\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?/g, function(m, p1){
 				return '<a href="'+m+'" target="_blank" class="url">'+m+'</a>';
 			})
 			.replace(/@([\u4e00-\u9fa5a-zA-Z0-9_-]{1,30})/g, function(m, p1){
@@ -87,6 +87,7 @@ $(function(){
 				return '<a href="http://huati.weibo.com/k/'+encodeURIComponent(p1)+'" target="_blank" class="tag">#'+p1+'#</a>';
 			})*/
 			;
+			return emoji ? emoji.replace_emoticons(emoji.replace_colons(h)) : h;
 		});
 
 		var zoomIn = function(){
