@@ -40,7 +40,7 @@
 
         <div class="boxes" id="content"><!-- Weibo Statuses -->
           {% for wb in myWeibo %}
-            {% set t = wb['created_at'] %} 
+            {% set t = wb['created_at'] %}
             {% set t = t[t.find(' '):t.rfind('+')] %}
             {% set idstr = wb['idstr'] %}
             {% set mid = wb['mid'] %}
@@ -106,6 +106,5 @@
 
     <script src="/static/js/jquery-1.11.1.min.js"></script>
     <script src="/static/js/jquery.form.min.js"></script>
-    <script src="/static/js/emoji.min.js"></script>
     <script src="/static/js/index.min.js"></script>
 {% endblock %}

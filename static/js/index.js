@@ -1,6 +1,6 @@
 /*
 Jinzhong_Nest Web index.js
-By @Phy25 - 2015/3/18
+By @Phy25 - 2015/3/18+1
 Other credits left through the script
 To minify, use http://marijnhaverbeke.nl/uglifyjs
 */
@@ -438,7 +438,7 @@ $(function(){
 				return '<a href="http://huati.weibo.com/k/'+encodeURIComponent(p1)+'" target="_blank" class="tag">#'+p1+'#</a>';
 			})*/
 			;
-			return emoji ? emoji.replace_emoticons(emoji.replace_colons(h)) : h;
+			return (typeof emoji !== 'undefined') ? emoji.replace_emoticons(emoji.replace_colons(h)) : h;
 		});
 
 		var zoomIn = function(){
