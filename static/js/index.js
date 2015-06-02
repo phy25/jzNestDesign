@@ -128,7 +128,7 @@ $(function(){
 			$('#msg-id-weibo-content-hint').remove();
 			hinted = false;
 		}
-		if(text.indexOf('树洞') != -1 || text.indexOf('洞主') != -1 || text.indexOf('@ 金中_Nest') != -1 || (text.indexOf('@金中_Nest') != -1 && !hinted)){
+		if(text.indexOf('树洞') != -1 || text.indexOf('洞主') != -1 || text.indexOf('管理员') != -1 || text.indexOf('@ 金中_Nest') != -1 || (text.indexOf('@金中_Nest') != -1 && !hinted)){
 			createMsgCardHTML('树洞问题，不妨<a href="#contact-block">直接跟洞主邮件交流</a>。你可以继续发布本内容。', 'weibo-content-hint', 'error', 5000, appendAfter);
 		}
 	}
