@@ -1,11 +1,60 @@
 /*
 Jinzhong_Nest Web wblist.js
-By @Phy25 - 2015/3/18
+By @Phy25 - 2015/6/4
 Just copy from index.js, including #content.box styling and inline comment
 Other credits left through the script
 */
 $(function(){
 	var timeouts = {}, fakeajax = false, sd_id = '3173227132';
+	var wbGetLength = (function(){ 
+		var trim = function(h) { 
+		try { 
+		return h.replace(/^\s+|\s+$/g, "") 
+		} catch(j) { 
+		return h 
+		} 
+		} 
+		var byteLength = function(b) { 
+		if (typeof b == "undefined") { 
+		return 0 
+		} 
+		var a = b.match(/[^\x00-\x80]/g); 
+		return (b.length + (!a ? 0 : a.length)) 
+		}; 
+
+		return function(q, g) { 
+		g = g || {}; 
+		g.max = g.max || 140; 
+		g.min = g.min || 41; 
+		g.surl = g.surl || 20; 
+		var p = trim(q).length; 
+		if (p > 0) { 
+		var j = g.min, 
+		s = g.max, 
+		b = g.surl, 
+		n = q; 
+		var r = q.match(/(http|https):\/\/[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+([-A-Z0-9a-z\$\.\+\!\_\*\(\)\/\,\:;@&=\?~#%]*)*/gi) || []; 
+		var h = 0; 
+		for (var m = 0, 
+		p = r.length; m < p; m++) { 
+		var o = byteLength(r[m]); 
+		if (/^(http:\/\/t.cn)/.test(r[m])) { 
+		continue 
+		} else { 
+		if (/^(http:\/\/)+(weibo.com|weibo.cn)/.test(r[m])) { 
+		h += o <= j ? o: (o <= s ? b: (o - s + b)) 
+		} else { 
+		h += o <= s ? b: (o - s + b) 
+		} 
+		} 
+		n = n.replace(r[m], "") 
+		} 
+		return Math.ceil((h + byteLength(n)) / 2) 
+		} else { 
+		return 0 
+		} 
+		} 
+	})();
 	function bindWeiboCard($e){
 		if($e.attr('id')){
 			$e.find('a.btn.repost').click(function(){
@@ -87,7 +136,7 @@ $(function(){
 				return '<a href="http://huati.weibo.com/k/'+encodeURIComponent(p1)+'" target="_blank" class="tag">#'+p1+'#</a>';
 			})*/
 			;
-			return emoji ? emoji.replace_emoticons(emoji.replace_colons(h)) : h;
+			return (typeof emoji !== 'undefined') ? emoji.replace_emoticons(emoji.replace_colons(h)) : h;
 		});
 
 		var zoomIn = function(){
