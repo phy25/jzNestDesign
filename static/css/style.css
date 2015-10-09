@@ -242,7 +242,7 @@ abbr{border-bottom: 1px dotted #333;}
 	.mobile-hide{display: none;}
 	.mobile-show{display: block;}
 	#left .ads.box{display:block;}
-	.contact-block{position:static;width: auto;margin-top:1em;}
+	#contact-block{position:static;width: auto;margin-top:1em;}
 }
 @media (max-width: 530px) {
 	body{font-size:15px;}
