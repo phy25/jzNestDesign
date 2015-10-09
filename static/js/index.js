@@ -1,6 +1,6 @@
 /*
 Jinzhong_Nest Web index.js
-By @Phy25 - 2015/10/9
+By @Phy25 - 2015/10/9+1
 Other credits left through the script
 To minify, use http://marijnhaverbeke.nl/uglifyjs
 */
@@ -621,8 +621,8 @@ $(function(){
 	});
 
 	$(window).on('hashchange', function(){
-		$('#contact-block').show(); // For mobile page
 		if(location.hash == '#contact-block'){
+			$('#contact-block').show(); // For mobile page
 			$('#contact-message').focus();
 		}
 	}).trigger('hashchange');
