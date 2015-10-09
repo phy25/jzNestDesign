@@ -173,6 +173,13 @@ abbr{border-bottom: 1px dotted #333;}
   background-color: #f0ad4e;
   color: #FFF;
 }
+.box.muted{
+  background-color: #EEE;
+  color: #AAA;
+}
+.box.muted{
+	box-shadow: 0px 0px 5px #FFF;
+}
 .progress-bar-striped.active {
   -webkit-animation: progress-bar-stripes 1s linear infinite;
        -o-animation: progress-bar-stripes 1s linear infinite;
