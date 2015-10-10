@@ -177,7 +177,7 @@ abbr{border-bottom: 1px dotted #333;}
   background-color: #EEE;
   color: #AAA;
 }
-.box.muted:focus{
+a.box.muted:focus{
 	box-shadow: 0px 0px 5px #FFF;
 }
 .progress-bar-striped.active {
